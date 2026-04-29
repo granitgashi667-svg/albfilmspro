@@ -6,7 +6,6 @@
 <title>AlbFilms24</title>
 
 <link rel="stylesheet" href="style.css">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
@@ -18,7 +17,6 @@
   <i class="fas fa-home"></i>
   <i class="fas fa-film"></i>
   <i class="fas fa-tv"></i>
-  <i class="fas fa-star"></i>
 </div>
 
 <div class="main">
@@ -28,16 +26,14 @@
   <input id="searchInput" placeholder="Kërko filma..." />
 </div>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-content">
     <h1>AlbFilms24</h1>
-    <p>Destinacioni yt për filma dhe seriale HD. Eksploro dhe shijo pa kufi!</p>
-    <button onclick="scrollToContent()">Start Exploring</button>
+    <p>Destinacioni yt për filma dhe seriale HD. Eksploro pa kufi.</p>
+    <button onclick="window.scrollTo({top:500,behavior:'smooth'})">Start Exploring</button>
   </div>
 </div>
 
-<!-- GENRES -->
 <div class="genres">
 <button onclick="loadGenre(28)">Action</button>
 <button onclick="loadGenre(35)">Comedy</button>
@@ -45,11 +41,8 @@
 <button onclick="loadGenre(27)">Horror</button>
 </div>
 
-<h2 class="section-title">Trending</h2>
-<div class="row" id="trendingRow"></div>
-
-<h2 class="section-title">Latest</h2>
-<div class="row" id="customRow"></div>
+<h2 class="section-title">Trending Movies</h2>
+<div class="grid" id="movies"></div>
 
 </div>
 
