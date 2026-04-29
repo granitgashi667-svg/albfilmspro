@@ -1,6 +1,6 @@
 body{
 margin:0;
-font-family:'Segoe UI', Arial;
+font-family:Arial;
 background:#0a0a0a;
 color:#fff;
 display:flex;
@@ -9,33 +9,23 @@ display:flex;
 /* SIDEBAR */
 .sidebar{
 width:70px;
-background:#0f0f0f;
+background:#111;
 height:100vh;
 position:fixed;
 display:flex;
 flex-direction:column;
 align-items:center;
 padding-top:20px;
-gap:25px;
-border-right:1px solid #222;
+gap:20px;
 }
 
 .sidebar i{
-font-size:18px;
 color:#aaa;
 cursor:pointer;
-transition:0.3s;
 }
 
 .sidebar i:hover{
 color:#e50914;
-transform:scale(1.2);
-}
-
-.logo{
-font-weight:bold;
-color:#e50914;
-font-size:20px;
 }
 
 /* MAIN */
@@ -50,13 +40,8 @@ padding:20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:15px;
 }
 
-.brand{
-font-size:24px;
-font-weight:600;
-}
 .brand span{
 color:#e50914;
 }
@@ -65,48 +50,71 @@ color:#e50914;
 padding:10px;
 border-radius:6px;
 border:none;
-background:#111;
-color:#fff;
-width:250px;
 }
 
 /* HERO */
 .hero{
-height:320px;
-border-radius:12px;
-background:#111;
-margin:20px 0;
+height:400px;
+background:url('https://image.tmdb.org/t/p/original/8rpDcsfLJypbO6vREc0547VKqEv.jpg');
 background-size:cover;
 background-position:center;
-box-shadow:0 0 40px rgba(0,0,0,0.7);
+display:flex;
+align-items:center;
+padding:40px;
+border-radius:12px;
+margin-bottom:20px;
 }
 
-/* TITLES */
-.section-title{
-margin:20px 0 10px;
-font-size:18px;
-font-weight:500;
+.hero-content{
+max-width:500px;
+}
+
+.hero button{
+background:#e50914;
+border:none;
+padding:12px;
+color:white;
+cursor:pointer;
+}
+
+/* GENRES */
+.genres{
+margin:10px 0;
+}
+
+.genres button{
+margin:5px;
+padding:8px 12px;
+background:#222;
+color:#fff;
+border:none;
+cursor:pointer;
 }
 
 /* ROW */
 .row{
 display:flex;
-gap:12px;
+gap:10px;
 overflow-x:auto;
-padding-bottom:10px;
 }
 
 .card{
-min-width:160px;
+min-width:150px;
 cursor:pointer;
-transition:0.3s;
+position:relative;
 }
 
 .card img{
-width:160px;
+width:150px;
 border-radius:8px;
 }
 
-.card:hover{
-transform:scale(1.08);
+/* PREVIEW */
+.preview{
+position:absolute;
+background:#111;
+padding:10px;
+width:250px;
+z-index:1000;
+border-radius:10px;
 }
