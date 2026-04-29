@@ -13,7 +13,7 @@
 <body>
 
 <div class="sidebar">
-  <div class="logo">AF</div>
+  <div class="logo">AF24</div>
   <i class="fas fa-home"></i>
   <i class="fas fa-film"></i>
   <i class="fas fa-tv"></i>
@@ -21,27 +21,21 @@
 
 <div class="main">
 
-<div class="header">
-  <h1 class="brand">AlbFilms<span>24</span></h1>
-  <input id="searchInput" placeholder="Kërko filma..." />
-</div>
-
+<!-- HERO -->
 <div class="hero">
+  <div class="overlay"></div>
+
   <div class="hero-content">
     <h1>AlbFilms24</h1>
-    <p>Destinacioni yt për filma dhe seriale HD. Eksploro pa kufi.</p>
-    <button onclick="window.scrollTo({top:500,behavior:'smooth'})">Start Exploring</button>
+    <p>Shiko filma dhe seriale HD pa kufi</p>
+
+    <input id="searchInput" placeholder="Kërko filma..." />
+
+    <button onclick="scrollDown()">Start Exploring</button>
   </div>
 </div>
 
-<div class="genres">
-<button onclick="loadGenre(28)">Action</button>
-<button onclick="loadGenre(35)">Comedy</button>
-<button onclick="loadGenre(18)">Drama</button>
-<button onclick="loadGenre(27)">Horror</button>
-</div>
-
-<h2 class="section-title">Trending Movies</h2>
+<h2 class="section-title">Trending</h2>
 <div class="grid" id="movies"></div>
 
 </div>
