@@ -2,10 +2,10 @@ const API_KEY = '7a98db423d6e3a5ee922a3e51a09d135';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG = 'https://image.tmdb.org/t/p/w500';
 
-let previewBox;
-let timeout;
+let preview;
+let timer;
 
-// LOAD TRENDING
+// LOAD MOVIES
 async function loadMovies(){
 const res = await fetch(`${BASE_URL}/trending/movie/week?api_key=${API_KEY}`);
 const data = await res.json();
@@ -14,28 +14,61 @@ document.getElementById("movies").innerHTML =
 data.results.map(m=>`
 <div class="card"
 onmouseenter="showPreview(${m.id}, this)"
-onmouseleave="hidePreview()"
-onclick="location.href='movie.html?id=${m.id}'">
+onmouseleave="hidePreview()">
 <img src="${IMG+m.poster_path}">
 </div>
 `).join('');
 }
 
-// GENRE FILTER
-async function loadGenre(id){
-const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${id}`);
-const data = await res.json();
+// PREVIEW + TRAILER
+async function showPreview(id, el){
 
-document.getElementById("movies").innerHTML =
-data.results.map(m=>`
-<div class="card">
-<img src="${IMG+m.poster_path}">
-</div>
-`).join('');
+clearTimeout(timer);
+
+timer = setTimeout(async ()=>{
+
+const res = await fetch(`${BASE_URL}/movie/${id}?api_key=${API_KEY}`);
+const movie = await res.json();
+
+const vidRes = await fetch(`${BASE_URL}/movie/${id}/videos?api_key=${API_KEY}`);
+const vids = await vidRes.json();
+
+const trailer = vids.results.find(v=>v.type==="Trailer");
+
+if(preview) preview.remove();
+
+preview = document.createElement("div");
+preview.className = "preview";
+
+preview.innerHTML = `
+${trailer ? `<iframe src="https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=1"></iframe>` : ""}
+<h3>${movie.title}</h3>
+<p>${movie.overview.slice(0,120)}...</p>
+`;
+
+document.body.appendChild(preview);
+
+const rect = el.getBoundingClientRect();
+
+preview.style.top = rect.top + window.scrollY + "px";
+preview.style.left = rect.left + "px";
+
+},400);
+}
+
+// HIDE
+function hidePreview(){
+clearTimeout(timer);
+if(preview) preview.remove();
+}
+
+// SCROLL
+function scrollDown(){
+window.scrollTo({top:600,behavior:"smooth"});
 }
 
 // SEARCH
-document.getElementById("searchInput").addEventListener("keyup", async (e)=>{
+document.getElementById("searchInput")?.addEventListener("keyup", async (e)=>{
 const q = e.target.value;
 if(q.length < 3) return;
 
@@ -49,41 +82,6 @@ data.results.map(m=>`
 </div>
 `).join('');
 });
-
-// PREVIEW (FIXED)
-function showPreview(id, el){
-
-clearTimeout(timeout);
-
-timeout = setTimeout(async ()=>{
-
-const res = await fetch(`${BASE_URL}/movie/${id}?api_key=${API_KEY}`);
-const data = await res.json();
-
-if(previewBox) previewBox.remove();
-
-previewBox = document.createElement("div");
-previewBox.className = "preview";
-
-previewBox.innerHTML = `
-<h4>${data.title}</h4>
-<p>${data.overview.slice(0,100)}...</p>
-`;
-
-document.body.appendChild(previewBox);
-
-const rect = el.getBoundingClientRect();
-
-previewBox.style.top = rect.top + window.scrollY + "px";
-previewBox.style.left = rect.left + "px";
-
-},300);
-}
-
-function hidePreview(){
-clearTimeout(timeout);
-if(previewBox) previewBox.remove();
-}
 
 // INIT
 loadMovies();
