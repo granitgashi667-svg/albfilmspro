@@ -22,10 +22,17 @@ gap:20px;
 .sidebar i{
 color:#aaa;
 cursor:pointer;
+transition:0.3s;
 }
 
 .sidebar i:hover{
 color:#e50914;
+transform:scale(1.2);
+}
+
+.logo{
+color:#e50914;
+font-weight:bold;
 }
 
 /* MAIN */
@@ -50,23 +57,20 @@ color:#e50914;
 padding:10px;
 border-radius:6px;
 border:none;
+background:#111;
+color:#fff;
 }
 
 /* HERO */
 .hero{
-height:400px;
+height:350px;
 background:url('https://image.tmdb.org/t/p/original/8rpDcsfLJypbO6vREc0547VKqEv.jpg');
 background-size:cover;
-background-position:center;
 display:flex;
 align-items:center;
 padding:40px;
 border-radius:12px;
 margin-bottom:20px;
-}
-
-.hero-content{
-max-width:500px;
 }
 
 .hero button{
@@ -78,10 +82,6 @@ cursor:pointer;
 }
 
 /* GENRES */
-.genres{
-margin:10px 0;
-}
-
 .genres button{
 margin:5px;
 padding:8px 12px;
@@ -91,30 +91,34 @@ border:none;
 cursor:pointer;
 }
 
-/* ROW */
-.row{
-display:flex;
-gap:10px;
-overflow-x:auto;
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns: repeat(auto-fill, minmax(150px,1fr));
+gap:15px;
 }
 
 .card{
-min-width:150px;
 cursor:pointer;
-position:relative;
+transition:0.3s;
 }
 
 .card img{
-width:150px;
+width:100%;
 border-radius:8px;
+}
+
+.card:hover{
+transform:scale(1.08);
 }
 
 /* PREVIEW */
 .preview{
 position:absolute;
-background:#111;
-padding:10px;
-width:250px;
-z-index:1000;
+background:#141414;
+padding:15px;
+width:260px;
 border-radius:10px;
+z-index:9999;
+box-shadow:0 10px 30px rgba(0,0,0,0.8);
 }
