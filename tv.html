@@ -14,12 +14,11 @@
         .nav-bar { display: flex; justify-content: flex-start; margin-bottom: 30px; gap: 15px; align-items: center; flex-wrap: wrap; }
         .back-btn { background: rgba(30, 30, 40, 0.8); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.15); padding: 10px 24px; border-radius: 40px; color: white; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-weight: 500; transition: 0.2s; }
         .back-btn:hover { background: #e50914; border-color: #e50914; transform: translateX(-3px); }
-        /* Server selector */
         .servers {
             display: flex;
             justify-content: center;
             gap: 12px;
-            margin: 0 0 20px 0;
+            margin: 20px 0;
             flex-wrap: wrap;
         }
         .server-btn {
@@ -52,7 +51,6 @@
         .episode-title { flex: 1; margin-left: 15px; font-weight: 500; }
         .player-wrapper { margin-top: 30px; border-radius: 24px; overflow: hidden; background: #000; }
         iframe { width: 100%; aspect-ratio: 16 / 9; border: none; }
-        /* Pagination për episode */
         .episode-pagination {
             display: flex;
             justify-content: center;
@@ -116,11 +114,12 @@
     const EPISODES_PER_PAGE = 10;
     let currentEpisodesList = [];
     let currentServer = 'vidsrc';
+    let lastSelectedEpisode = { season: null, episode: null };
 
-    // Server definitions (identical to watch.html)
+    // ============ 6 SERVERË (mund të ndryshosh URL-të sipas nevojës) ============
     const servers = {
         vidsrc: {
-            name: 'Server 1',
+            name: 'Server 1 (VidSrc)',
             getUrl: (id, season, episode) => `https://vidsrcme.ru/embed/tv/${id}/${season}/${episode}`
         },
         multiembed: {
@@ -128,12 +127,27 @@
             getUrl: (id, season, episode) => `https://multiembed.mov/?video_id=${id}&tmdb=1&tv=1&season=${season}&episode=${episode}`
         },
         embed2: {
-            name: 'Server 3',
+            name: 'Server 3 (2Embed)',
             getUrl: (id, season, episode) => `https://www.2embed.cc/embedtv/${id}&season=${season}&episode=${episode}`
+        },
+        vkng: {
+            name: 'Server 4 (Vkng)',
+            getUrl: (id, season, episode) => `https://vkng.com/embed/tv/${id}/${season}/${episode}`   // Zëvendëso URL-në nëse di të saktën
+        },
+        xps: {
+            name: 'Server 5 (Xps)',
+            getUrl: (id, season, episode) => `https://xps.tv/embed/${id}/${season}/${episode}`           // Zëvendëso URL-në
+        },
+        vsrc: {
+            name: 'Server 6 (VSrc)',
+            getUrl: (id, season, episode) => `https://vsrc.xyz/embed/tv/${id}/${season}/${episode}`       // Zëvendëso URL-në
         }
     };
 
-    function loadVideo(season, episode) {
+    function loadVideo(season, episode, skipSave = false) {
+        if (!skipSave) {
+            lastSelectedEpisode = { season, episode };
+        }
         const server = servers[currentServer];
         if (server && tvId) {
             const embedUrl = server.getUrl(tvId, season, episode);
@@ -143,7 +157,27 @@
             playerContainer.style.display = 'block';
             playerContainer.scrollIntoView({ behavior: 'smooth' });
         } else {
-            alert('No server selected or invalid ID');
+            alert('Invalid server or ID');
+        }
+    }
+
+    // Funksioni për të rifreskuar episodin aktual me serverin e ri
+    function reloadCurrentEpisode() {
+        if (lastSelectedEpisode.season !== null && lastSelectedEpisode.episode !== null) {
+            loadVideo(lastSelectedEpisode.season, lastSelectedEpisode.episode, true);
+        } else {
+            // Nëse nuk ka episod të zgjedhur, bëj një njoftim të butë
+            const msg = document.createElement('div');
+            msg.textContent = 'Select an episode first, then change server.';
+            msg.style.position = 'fixed';
+            msg.style.bottom = '20px';
+            msg.style.right = '20px';
+            msg.style.backgroundColor = '#e50914';
+            msg.style.padding = '10px 15px';
+            msg.style.borderRadius = '30px';
+            msg.style.zIndex = '9999';
+            document.body.appendChild(msg);
+            setTimeout(() => msg.remove(), 2000);
         }
     }
 
@@ -173,14 +207,8 @@
                 currentServer = key;
                 document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                // If a video is already playing, reload it with new server
-                const currentPlayer = document.getElementById('player');
-                if (currentPlayer.src) {
-                    const urlParts = currentPlayer.src.split('/');
-                    // Try to extract season and episode from current URL? Not trivial; better to re-prompt.
-                    // For simplicity, just show message: select episode again.
-                    alert('Please click on an episode again to play with the new server.');
-                }
+                // Reload current episode automatically if any
+                reloadCurrentEpisode();
             };
             serverContainer.appendChild(btn);
         });
