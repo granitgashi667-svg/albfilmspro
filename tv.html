@@ -136,6 +136,7 @@
     let currentServer = 'vidsrc';
     let lastSelectedEpisode = { season: null, episode: null };
 
+    // ============ 6 SERVERË (3 të parët ekzistues, 3 të fundit të rinj) ============
     const servers = {
         vidsrc: {
             name: 'Server 1',
@@ -149,17 +150,18 @@
             name: 'Server 3',
             getUrl: (id, season, episode) => `https://www.2embed.cc/embedtv/${id}&season=${season}&episode=${episode}`
         },
-        embedsu: {
+        // === SERVERËT E RINJ (të ndryshëm nga të parët) ===
+        vembed: {
             name: 'Server 4',
-            getUrl: (id, season, episode) => `https://embed.su/embed/tv/${id}/${season}/${episode}`
+            getUrl: (id, season, episode) => `https://vembed.net/embed/tv/${id}/${season}/${episode}`
         },
-        vidlink: {
+        streamembed: {
             name: 'Server 5',
-            getUrl: (id, season, episode) => `https://vidlink.pro/embed/tv/${id}/${season}/${episode}`
+            getUrl: (id, season, episode) => `https://www.streamembed.to/embed/tv/${id}/${season}/${episode}`
         },
-        autoembed: {
+        rabbitstream: {
             name: 'Server 6',
-            getUrl: (id, season, episode) => `https://autoembed.to/embed/tv/${id}/${season}/${episode}`
+            getUrl: (id, season, episode) => `https://rabbitstream.net/embed/tv/${id}/${season}/${episode}`
         }
     };
 
