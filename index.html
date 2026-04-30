@@ -32,52 +32,10 @@
         .slide-cast { font-size: 13px; color: #bbb; margin-bottom: 22px; }
         .btn-watch { background: #e50914; border: none; padding: 12px 32px; border-radius: 50px; color: white; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.25s; display: inline-flex; align-items: center; gap: 10px; }
         .btn-watch:hover { background: #b81d24; transform: scale(1.02); }
-        .slider-static-content {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            transform: none;
-            text-align: left;
-            z-index: 20;
-            width: auto;
-            max-width: none;
-            pointer-events: none;
-        }
-        .slider-static-content h1 {
-            font-size: 28px;
-            font-weight: 500;
-            font-family: 'Playfair Display', serif;
-            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(229,9,20,0.8));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: 0px;
-            margin-bottom: 0;
-            pointer-events: none;
-            text-shadow: none;
-        }
-        .slider-search {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%;
-            max-width: 500px;
-            pointer-events: auto;
-        }
-        .slider-search input {
-            width: 100%;
-            padding: 14px 24px;
-            border-radius: 60px;
-            border: none;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(8px);
-            color: white;
-            font-size: 16px;
-            outline: none;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
+        .slider-static-content { position: absolute; top: 20px; left: 20px; transform: none; text-align: left; z-index: 20; width: auto; max-width: none; pointer-events: none; }
+        .slider-static-content h1 { font-size: 28px; font-weight: 500; font-family: 'Playfair Display', serif; background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(229,9,20,0.8)); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: 0px; margin-bottom: 0; pointer-events: none; text-shadow: none; }
+        .slider-search { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 500px; pointer-events: auto; }
+        .slider-search input { width: 100%; padding: 14px 24px; border-radius: 60px; border: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); color: white; font-size: 16px; outline: none; text-align: center; border: 1px solid rgba(255,255,255,0.3); }
         .slider-search input:focus { background: rgba(0,0,0,0.8); border-color: #e50914; }
         .section-header { display: flex; justify-content: space-between; align-items: baseline; margin: 40px 0 20px; flex-wrap: wrap; }
         .section-title { font-size: 24px; font-weight: 700; border-left: 4px solid #e50914; padding-left: 15px; }
@@ -99,9 +57,9 @@
         .watchlater-btn i.fas { color: #4caf50; }
         .watchlater-btn i.far { color: #fff; }
         .favorite-btn:hover, .watchlater-btn:hover { transform: scale(1.1); background: rgba(0,0,0,0.8); }
-        /* Preview i përmirësuar për ofruesit */
+        /* Preview i përmirësuar - tani me absolute dhe pozicionim dinamik */
         .preview-rich {
-            position: fixed;
+            position: absolute;
             width: 480px;
             background: #1a1c22;
             border-radius: 20px;
@@ -407,7 +365,7 @@
     function showToast(msg) { const toast = document.getElementById('toast'); toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
     function createCard(item, isTv, containerId) { const card = document.createElement('div'); card.className = isTv ? 'tv-card' : 'movie-card'; const id = item.id, type = isTv ? 'tv' : 'movie'; const title = item.title || item.name; const year = (item.release_date || item.first_air_date || '').split('-')[0] || 'N/A'; const rating = item.vote_average ? item.vote_average.toFixed(1) : '?'; const poster = item.poster_path || ''; const isFav = isFavorite(id, type); const isWatch = isWatchlist(id, type); card.innerHTML = `<div class="card-icons"><div class="favorite-btn" data-id="${id}" data-type="${type}" data-title="${title.replace(/'/g,"\\'")}" data-poster="${poster}"><i class="${isFav ? 'fas' : 'far'} fa-heart"></i></div><div class="watchlater-btn" data-id="${id}" data-type="${type}" data-title="${title.replace(/'/g,"\\'")}" data-poster="${poster}"><i class="${isWatch ? 'fas' : 'far'} fa-clock"></i></div></div><img class="poster" src="${poster ? IMG+poster : 'https://via.placeholder.com/300x450?text=No+Image'}" alt="${title}"><div class="card-info"><h4>${title}</h4><p>${year} ⭐ ${rating}</p></div>`; let hoverTimeout; card.addEventListener('mouseenter', () => { if (window.innerWidth > 768) hoverTimeout = setTimeout(() => showRichPreview(item, card, isTv), 400); }); card.addEventListener('mouseleave', () => { clearTimeout(hoverTimeout); if (window.innerWidth > 768) setTimeout(() => { if (activePreview && !activePreview.matches(':hover') && !card.matches(':hover')) { removePreview(); currentCard = null; } }, 100); }); card.addEventListener('click', (e) => { if (e.target.closest('.favorite-btn') || e.target.closest('.watchlater-btn')) return; if (isTv) window.location.href = `tv.html?id=${id}`; else window.location.href = `watch.html?id=${id}&type=movie`; }); const favBtn = card.querySelector('.favorite-btn'); const watchBtn = card.querySelector('.watchlater-btn'); favBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleFavorite(id, type, title, poster); }); watchBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleWatchlist(id, type, title, poster); }); document.getElementById(containerId).appendChild(card); }
 
-    // FIXED: showRichPreview me z-index dhe pozicionim të përmirësuar për ofruesit
+    // =============== FUNKSIONI I RREGULLUAR I PREVIEW (punon edhe pas scroll-it) ===============
     function showRichPreview(item, cardEl, isTv) {
         if (window.innerWidth <= 768) return;
         if (activePreview && currentCard === cardEl) return;
@@ -440,14 +398,30 @@
                         `;
                         document.body.appendChild(preview);
                         activePreview = preview;
+                        
+                        // Llogarit pozicionin në bazë të pamjes së dritares
                         const rect = cardEl.getBoundingClientRect();
                         let left = rect.left + rect.width + 15;
                         let top = rect.top + window.scrollY;
-                        if (left + 480 > window.innerWidth) left = rect.left - 490;
-                        if (top + 400 > window.innerHeight + window.scrollY) top = window.innerHeight + window.scrollY - 420;
+                        
+                        // Rregulloni nëse del jashtë majtas
+                        if (left + 480 > window.innerWidth) {
+                            left = rect.left - 490;
+                        }
+                        // Rregulloni nëse del jashtë poshtë
+                        if (top + 450 > window.scrollY + window.innerHeight) {
+                            top = window.scrollY + window.innerHeight - 460;
+                        }
+                        // Rregulloni nëse del jashtë sipër
+                        if (top < window.scrollY) {
+                            top = window.scrollY + 10;
+                        }
+                        
                         preview.style.top = top + 'px';
                         preview.style.left = left + 'px';
+                        preview.style.position = 'absolute';
                         preview.style.zIndex = '10000';
+                        
                         preview.addEventListener('mouseenter', () => { if (previewTimeout) clearTimeout(previewTimeout); });
                         preview.addEventListener('mouseleave', () => {
                             previewTimeout = setTimeout(() => { removePreview(); currentCard = null; }, 300);
