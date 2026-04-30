@@ -49,18 +49,7 @@
         .card-info h4 { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .card-info p { font-size: 12px; color: #aaa; }
         .card-icons { position: absolute; top: 10px; right: 10px; display: flex; gap: 8px; z-index: 20; }
-        .favorite-btn, .watchlater-btn {
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
-            border-radius: 50%;
-            width: 34px;
-            height: 34px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+        .favorite-btn, .watchlater-btn { background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
         .favorite-btn i, .watchlater-btn i { font-size: 18px; }
         .favorite-btn i.fas { color: #e50914; }
         .favorite-btn i.far { color: #fff; }
@@ -85,8 +74,8 @@
         .auth-form { display:flex; flex-direction:column; gap:12px; margin-top:20px; }
         .auth-form input { padding:10px; border-radius:30px; border:none; background:#2a2c30; color:white; }
         .btn-primary { background:#e50914; border:none; padding:10px; border-radius:30px; color:white; cursor:pointer; }
-        .favorites-section, .watchlist-section { display: none; margin-top: 20px; }
-        .favorites-section.active, .watchlist-section.active { display: block; }
+        .favorites-section, .watchlist-section, .provider-section { display: none; margin-top: 20px; }
+        .favorites-section.active, .watchlist-section.active, .provider-section.active { display: block; }
         .back-to-home { display: inline-block; margin-bottom: 20px; background: #1e2026; padding: 8px 20px; border-radius: 30px; cursor: pointer; transition: 0.2s; }
         .back-to-home:hover { background: #e50914; }
         @media (max-width: 768px) {
@@ -126,6 +115,10 @@
         <a href="tvshows.html" id="tvShowLink"><i class="fas fa-tv"></i><span>TV Shows</span></a>
         <a href="#" id="favoritesLink"><i class="fas fa-heart"></i><span>Favorites</span></a>
         <a href="#" id="watchlistLink"><i class="fas fa-clock"></i><span>Watch Later</span></a>
+        <!-- Provider links -->
+        <a href="#" id="netflixLink"><i class="fab fa-netflix"></i><span>Netflix</span></a>
+        <a href="#" id="primeLink"><i class="fab fa-amazon"></i><span>Prime</span></a>
+        <a href="#" id="disneyLink"><i class="fab fa-disney"></i><span>Disney+</span></a>
     </div>
     <div class="sidebar-bottom">
         <a href="#" id="userIconSidebar"><i class="fas fa-user-circle"></i><span>Login</span></a>
@@ -165,7 +158,16 @@
         <div class="movies-grid" id="watchlistGrid"></div>
     </div>
 
+    <!-- Provider Section (Netflix, Prime, Disney+) -->
+    <div id="providerSection" class="provider-section">
+        <div class="back-to-home" id="backFromProviderBtn"><i class="fas fa-arrow-left"></i> Back to Home</div>
+        <div class="section-header"><h2 class="section-title" id="providerTitle"></h2></div>
+        <div class="movies-grid" id="providerGrid"></div>
+        <div class="pagination-controls" id="providerPagination"></div>
+    </div>
+
     <div id="mainContent">
+        <!-- 14 genre sections -->
         <div class="genre-section">
             <div class="section-header"><h2 class="section-title"><i class="fas fa-bolt"></i> Action</h2></div>
             <div class="movies-grid" id="actionGrid"></div>
@@ -416,6 +418,51 @@
             });
         }
 
+        // Provider functions
+        const PROVIDERS = { netflix: 8, prime: 9, disney: 337 };
+        async function fetchProviderContent(providerId, page = 1) {
+            const region = 'US';
+            const url = `${BASE}/discover/movie?api_key=${API_KEY}&with_watch_providers=${providerId}&watch_region=${region}&sort_by=popularity.desc&language=en-US&page=${page}`;
+            const grid = document.getElementById('providerGrid');
+            const pag = document.getElementById('providerPagination');
+            grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">Loading...</div>';
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                const totalPages = Math.min(data.total_pages, 10);
+                grid.innerHTML = '';
+                data.results.forEach(m => createCard(m, false, 'providerGrid'));
+                pag.innerHTML = '';
+                for (let i = 1; i <= totalPages; i++) {
+                    const btn = document.createElement('button');
+                    btn.textContent = i;
+                    btn.className = `page-btn ${i === page ? 'active' : ''}`;
+                    btn.onclick = () => fetchProviderContent(providerId, i);
+                    pag.appendChild(btn);
+                }
+                if (data.results.length === 0) grid.innerHTML = '<div style="grid-column:1/-1; text-align:center;">No content found for this provider.</div>';
+            } catch(e) { console.error(e); grid.innerHTML = '<div>Error loading provider content</div>'; }
+        }
+
+        function showProvider(providerName, providerId) {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('favoritesSection').classList.remove('active');
+            document.getElementById('watchlistSection').classList.remove('active');
+            document.getElementById('searchResultsContainer').style.display = 'none';
+            const provSec = document.getElementById('providerSection');
+            provSec.style.display = 'block';
+            document.getElementById('providerTitle').innerHTML = `<i class="fab fa-${providerName.toLowerCase()}"></i> Top on ${providerName}`;
+            fetchProviderContent(providerId, 1);
+        }
+
+        function showMainContent() {
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('favoritesSection').classList.remove('active');
+            document.getElementById('watchlistSection').classList.remove('active');
+            document.getElementById('searchResultsContainer').style.display = 'none';
+            document.getElementById('providerSection').style.display = 'none';
+        }
+
         function showRichPreview(item, cardEl, isTv) {
             if (window.innerWidth <= 768) return;
             if (activePreview && currentCard === cardEl) return;
@@ -592,6 +639,7 @@
             document.getElementById('mainContent').style.display = 'none';
             document.getElementById('searchResultsContainer').style.display = 'none';
             document.getElementById('watchlistSection').classList.remove('active');
+            document.getElementById('providerSection').style.display = 'none';
             document.getElementById('favoritesSection').classList.add('active');
             displayFavorites();
         }
@@ -599,15 +647,11 @@
             document.getElementById('mainContent').style.display = 'none';
             document.getElementById('searchResultsContainer').style.display = 'none';
             document.getElementById('favoritesSection').classList.remove('active');
+            document.getElementById('providerSection').style.display = 'none';
             document.getElementById('watchlistSection').classList.add('active');
             displayWatchlist();
         }
-        function showMainContent() {
-            document.getElementById('mainContent').style.display = 'block';
-            document.getElementById('favoritesSection').classList.remove('active');
-            document.getElementById('watchlistSection').classList.remove('active');
-            document.getElementById('searchResultsContainer').style.display = 'none';
-        }
+
         function showToast(msg) {
             const toast = document.getElementById('toast');
             toast.textContent = msg;
@@ -615,6 +659,7 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
+        // Event listeners
         document.getElementById('searchInputSlider').addEventListener('input', e => searchContent(e.target.value));
         document.getElementById('userIconSidebar').onclick = () => document.getElementById('authModal').style.display = 'flex';
         document.querySelector('.close-modal').onclick = () => document.getElementById('authModal').style.display = 'none';
@@ -625,6 +670,10 @@
         document.getElementById('watchlistLink').addEventListener('click', (e) => { e.preventDefault(); showWatchlist(); });
         document.getElementById('backToHomeBtnFav').addEventListener('click', () => { showMainContent(); });
         document.getElementById('backToHomeBtnWatch').addEventListener('click', () => { showMainContent(); });
+        document.getElementById('backFromProviderBtn').addEventListener('click', () => { showMainContent(); });
+        document.getElementById('netflixLink').addEventListener('click', (e) => { e.preventDefault(); showProvider('Netflix', PROVIDERS.netflix); });
+        document.getElementById('primeLink').addEventListener('click', (e) => { e.preventDefault(); showProvider('Prime', PROVIDERS.prime); });
+        document.getElementById('disneyLink').addEventListener('click', (e) => { e.preventDefault(); showProvider('Disney+', PROVIDERS.disney); });
 
         loadHeroSlider();
         initGenres();
