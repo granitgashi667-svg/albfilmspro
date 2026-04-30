@@ -2,32 +2,127 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>AlbFilms24 - TV Series Episodes</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #0a0a0f; color: #fff; font-family: 'Inter', sans-serif; background-size: cover; background-attachment: fixed; }
-        body::before { content: ''; position: fixed; top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85); z-index:-1; }
-        .container { max-width: 1200px; margin:0 auto; padding: 30px 20px; }
-        .nav-bar { display: flex; justify-content: flex-start; margin-bottom: 30px; }
-        .back-btn { background: rgba(30,30,40,0.8); backdrop-filter: blur(8px); border:1px solid rgba(255,255,255,0.15); padding:10px 24px; border-radius:40px; color:white; cursor:pointer; display: inline-flex; align-items:center; gap:10px; }
-        .back-btn:hover { background:#e50914; }
-        .series-hero { display:flex; gap:40px; flex-wrap:wrap; background:rgba(20,20,30,0.7); backdrop-filter:blur(12px); border-radius:28px; padding:30px; margin-bottom:40px; border-left:5px solid #e50914; }
-        .poster img { width:260px; border-radius:20px; cursor:pointer; }
-        .title { font-size:40px; font-weight:800; margin-bottom:16px; background:linear-gradient(135deg,#fff,#e50914); -webkit-background-clip:text; background-clip:text; color:transparent; }
-        .meta { display:flex; flex-wrap:wrap; gap:18px; margin-bottom:24px; }
-        .meta span { background:#1e2026; padding:6px 16px; border-radius:40px; }
-        .season-selector { display:flex; flex-wrap:wrap; gap:12px; margin:30px 0 20px; }
-        .season-btn { background:#1e2026; border:none; padding:10px 24px; border-radius:40px; color:#ccc; cursor:pointer; }
-        .season-btn.active { background:#e50914; color:white; }
-        .episodes-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; margin:20px 0 40px; }
-        .episode-card { background:#1a1c24; border-radius:16px; padding:16px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:0.2s; }
-        .episode-card:hover { background:#e50914; }
-        .player-wrapper { margin-top:30px; border-radius:24px; overflow:hidden; background:#000; }
-        iframe { width:100%; aspect-ratio:16/9; border:none; }
-        /* Preview styling */
+        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: -1; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .nav-bar { display: flex; justify-content: flex-start; margin-bottom: 30px; gap: 15px; align-items: center; flex-wrap: wrap; }
+        .back-btn { background: rgba(30, 30, 40, 0.8); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.15); padding: 10px 24px; border-radius: 40px; color: white; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-weight: 500; transition: 0.2s; }
+        .back-btn:hover { background: #e50914; border-color: #e50914; transform: translateX(-3px); }
+        .series-hero { display: flex; gap: 40px; flex-wrap: wrap; background: rgba(20, 20, 30, 0.7); backdrop-filter: blur(12px); border-radius: 28px; padding: 30px; margin-bottom: 40px; border-left: 5px solid #e50914; box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.4); }
+        .poster img { width: 260px; border-radius: 20px; cursor: pointer; transition: 0.2s; box-shadow: 0 15px 25px -8px rgba(0, 0, 0, 0.5); }
+        .poster img:hover { transform: scale(1.02); }
+        .title { font-size: 40px; font-weight: 800; margin-bottom: 16px; background: linear-gradient(135deg, #fff, #e50914); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .meta { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 24px; font-size: 15px; }
+        .meta span { background: #1e2026; padding: 6px 16px; border-radius: 40px; display: inline-flex; align-items: center; gap: 6px; }
+        .overview { margin-bottom: 24px; line-height: 1.6; color: #ddd; font-size: 16px; }
+        .season-selector { display: flex; flex-wrap: wrap; gap: 12px; margin: 30px 0 20px; }
+        .season-btn { background: #1e2026; border: none; padding: 10px 24px; border-radius: 40px; color: #ccc; cursor: pointer; font-weight: 500; transition: 0.2s; }
+        .season-btn.active { background: #e50914; color: white; }
+        .season-btn:hover { background: #333; }
+        .episode-pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0 20px;
+            flex-wrap: wrap;
+        }
+        .ep-pagination-btn {
+            background: #1e2026;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 40px;
+            color: #ccc;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .ep-pagination-btn:hover:not(:disabled) {
+            background: #e50914;
+            color: white;
+        }
+        .ep-pagination-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .page-numbers {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .page-num {
+            background: #1e2026;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            color: #ccc;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .page-num.active {
+            background: #e50914;
+            color: white;
+        }
+        .page-num:hover:not(.active) {
+            background: #333;
+        }
+        .episodes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .episode-card {
+            background: #1a1c24;
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .episode-card:hover {
+            background: #e50914;
+            transform: scale(1.01);
+            border-color: #e50914;
+        }
+        .episode-number {
+            font-weight: 700;
+            background: #0a0a0f;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+        .episode-title {
+            flex: 1;
+            margin-left: 15px;
+            font-weight: 500;
+        }
+        .player-wrapper {
+            margin-top: 30px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.5);
+            background: #000;
+        }
+        iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+        }
         .preview-rich {
             position: fixed;
             width: 340px;
@@ -36,22 +131,35 @@
             overflow: hidden;
             z-index: 10000;
             border: 1px solid #e50914;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.6);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.6);
             pointer-events: auto;
         }
         .preview-trailer iframe { width: 100%; height: 190px; border: none; }
         .preview-info { padding: 12px; }
         .preview-info h4 { font-size: 16px; margin-bottom: 8px; color: #e50914; }
         .preview-info p { font-size: 13px; color: #ccc; margin-bottom: 5px; }
+        @media (max-width: 700px) {
+            .poster img { width: 160px; }
+            .title { font-size: 28px; }
+            .series-hero { padding: 20px; gap: 20px; }
+            .episodes-grid { grid-template-columns: 1fr; }
+            .ep-pagination-btn { padding: 6px 14px; font-size: 13px; }
+            .page-num { width: 32px; height: 32px; }
+        }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="nav-bar"><button class="back-btn" onclick="history.back()"><i class="fas fa-arrow-left"></i> Back</button></div>
+    <div class="nav-bar">
+        <button class="back-btn" onclick="history.back()"><i class="fas fa-arrow-left"></i> Back to Home</button>
+    </div>
     <div id="info" class="series-hero"></div>
     <div id="seasonsContainer" class="season-selector"></div>
     <div id="episodesContainer" class="episodes-grid"></div>
-    <div id="playerContainer" class="player-wrapper" style="display:none;"><iframe id="player" allowfullscreen></iframe></div>
+    <div id="episodePagination" class="episode-pagination"></div>
+    <div id="playerContainer" class="player-wrapper" style="display: none;">
+        <iframe id="player" allowfullscreen allow="autoplay; fullscreen"></iframe>
+    </div>
 </div>
 
 <script>
@@ -60,10 +168,15 @@
     const API_KEY = '7a98db423d6e3a5ee922a3e51a09d135';
     const IMG = 'https://image.tmdb.org/t/p/w500';
     const BACKDROP = 'https://image.tmdb.org/t/p/original';
-    let tvData, currentSeason = 1;
+    let tvData = null;
+    let currentSeason = 1;
+    let currentEpisodePage = 1;
+    const EPISODES_PER_PAGE = 10;
+    let currentEpisodesList = [];
+
+    // =============== PREVIEW (hover) ===============
     let activePreview = null;
     let previewTimeout = null;
-
     function removePreview() {
         if (activePreview) { activePreview.remove(); activePreview = null; }
         if (previewTimeout) clearTimeout(previewTimeout);
@@ -87,25 +200,41 @@
                         const overview = details.overview ? details.overview.substring(0, 180) : 'No description';
                         const preview = document.createElement('div');
                         preview.className = 'preview-rich';
-                        preview.innerHTML = `
-                            <div class="preview-trailer">
-                                ${trailer ? `<iframe src="https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>` : '<div style="height:190px; background:#111; display:flex; align-items:center; justify-content:center;">🎬 No trailer</div>'}
-                            </div>
-                            <div class="preview-info">
-                                <h4>${title} (${year})</h4>
-                                <p>⭐ ${rating}/10</p>
-                                <p>${overview}...</p>
-                            </div>
-                        `;
+                        if (trailer) {
+                            preview.innerHTML = `
+                                <div class="preview-trailer" style="position: relative;">
+                                    <iframe src="https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width:100%; height:190px;"></iframe>
+                                    <button class="unmute-btn" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.6); border: none; color: white; padding: 5px 10px; border-radius: 20px; cursor: pointer; font-size: 12px; z-index: 100;">🔊 Unmute</button>
+                                </div>
+                                <div class="preview-info">
+                                    <h4>${title} (${year})</h4>
+                                    <p>⭐ ${rating}/10</p>
+                                    <p>${overview}...</p>
+                                </div>
+                            `;
+                            const unmuteBtn = preview.querySelector('.unmute-btn');
+                            const iframe = preview.querySelector('iframe');
+                            if (unmuteBtn && iframe) {
+                                unmuteBtn.addEventListener('click', () => {
+                                    const newSrc = iframe.src.replace('mute=1', 'mute=0');
+                                    iframe.src = newSrc;
+                                    unmuteBtn.style.display = 'none';
+                                });
+                            }
+                        } else {
+                            preview.innerHTML = `<div class="preview-info"><h4>${title} (${year})</h4><p>⭐ ${rating}/10</p><p>${overview}...</p></div>`;
+                        }
                         document.body.appendChild(preview);
                         activePreview = preview;
                         const rect = cardEl.getBoundingClientRect();
                         let left = rect.left + rect.width + 15;
                         let top = rect.top + window.scrollY;
                         if (left + 340 > window.innerWidth) left = rect.left - 350;
-                        if (top + 300 > window.innerHeight + window.scrollY) top = window.innerHeight + window.scrollY - 320;
+                        if (top + 300 > window.scrollY + window.innerHeight) top = window.scrollY + window.innerHeight - 320;
+                        if (top < window.scrollY) top = window.scrollY + 10;
                         preview.style.top = top + 'px';
                         preview.style.left = left + 'px';
+                        preview.style.position = 'absolute';
                         preview.style.zIndex = '10000';
                         preview.addEventListener('mouseenter', () => { if (previewTimeout) clearTimeout(previewTimeout); });
                         preview.addEventListener('mouseleave', () => {
@@ -135,9 +264,11 @@
         let left = rect.left + rect.width + 15;
         let top = rect.top + window.scrollY;
         if (left + 340 > window.innerWidth) left = rect.left - 350;
-        if (top + 300 > window.innerHeight + window.scrollY) top = window.innerHeight + window.scrollY - 320;
+        if (top + 300 > window.scrollY + window.innerHeight) top = window.scrollY + window.innerHeight - 320;
+        if (top < window.scrollY) top = window.scrollY + 10;
         preview.style.top = top + 'px';
         preview.style.left = left + 'px';
+        preview.style.position = 'absolute';
         preview.style.zIndex = '10000';
         preview.addEventListener('mouseenter', () => { if (previewTimeout) clearTimeout(previewTimeout); });
         preview.addEventListener('mouseleave', () => {
@@ -145,6 +276,7 @@
         });
     }
 
+    // =============== NGARKIMI I SERIALIT DHE SEZONEVE ===============
     async function loadTVDetails() {
         if (!tvId) return;
         const res = await fetch(`https://api.themoviedb.org/3/tv/${tvId}?api_key=${API_KEY}&language=en-US`);
@@ -153,7 +285,7 @@
         if (backdrop) document.body.style.backgroundImage = `url('${backdrop}')`;
         document.getElementById('info').innerHTML = `
             <div class="poster" style="cursor:pointer;">
-                <img src="${tvData.poster_path ? IMG + tvData.poster_path : ''}" alt="${tvData.name}">
+                <img src="${tvData.poster_path ? IMG + tvData.poster_path : 'https://via.placeholder.com/300x450?text=No+Image'}" alt="${tvData.name}">
             </div>
             <div class="details">
                 <div class="title">${tvData.name}</div>
@@ -161,7 +293,7 @@
                 <div class="overview">${tvData.overview || 'No description.'}</div>
             </div>
         `;
-        // Shto preview për posterin e serialit
+        // Preview për posterin e serialit
         const posterEl = document.querySelector('#info .poster');
         if (posterEl) {
             let hoverTimeout;
@@ -179,7 +311,8 @@
     function loadSeasons() {
         const seasonsDiv = document.getElementById('seasonsContainer');
         seasonsDiv.innerHTML = '';
-        tvData.seasons.forEach(season => {
+        const seasons = tvData.seasons || [];
+        seasons.forEach(season => {
             if (season.season_number === 0) return;
             const btn = document.createElement('button');
             btn.textContent = `Season ${season.season_number}`;
@@ -189,23 +322,37 @@
                 currentSeason = season.season_number;
                 document.querySelectorAll('.season-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                loadEpisodes(season.season_number);
+                currentEpisodePage = 1;
+                loadEpisodes(currentSeason);
             };
             seasonsDiv.appendChild(btn);
         });
-        if (tvData.seasons.length) loadEpisodes(tvData.seasons[0].season_number);
+        if (seasons.length) loadEpisodes(currentSeason);
     }
 
     async function loadEpisodes(seasonNum) {
         const res = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNum}?api_key=${API_KEY}&language=en-US`);
         const seasonData = await res.json();
+        currentEpisodesList = seasonData.episodes || [];
+        currentEpisodePage = 1;
+        renderEpisodes();
+    }
+
+    function renderEpisodes() {
+        const start = (currentEpisodePage - 1) * EPISODES_PER_PAGE;
+        const end = start + EPISODES_PER_PAGE;
+        const pageEpisodes = currentEpisodesList.slice(start, end);
         const episodesDiv = document.getElementById('episodesContainer');
         episodesDiv.innerHTML = '';
-        seasonData.episodes.forEach(ep => {
+        pageEpisodes.forEach(ep => {
             const card = document.createElement('div');
             card.className = 'episode-card';
-            card.innerHTML = `<span><strong>E${ep.episode_number}</strong> ${ep.name}</span><i class="fas fa-play-circle"></i>`;
-            card.onclick = () => playEpisode(seasonNum, ep.episode_number);
+            card.innerHTML = `
+                <span class="episode-number">E${ep.episode_number}</span>
+                <span class="episode-title">${ep.name}</span>
+                <i class="fas fa-play-circle"></i>
+            `;
+            card.onclick = () => playEpisode(currentSeason, ep.episode_number);
             let epHoverTimeout;
             card.addEventListener('mouseenter', () => {
                 epHoverTimeout = setTimeout(() => showEpisodePreview(ep, card), 400);
@@ -216,6 +363,58 @@
             });
             episodesDiv.appendChild(card);
         });
+        renderPagination();
+    }
+
+    function renderPagination() {
+        const totalPages = Math.ceil(currentEpisodesList.length / EPISODES_PER_PAGE);
+        const paginationDiv = document.getElementById('episodePagination');
+        paginationDiv.innerHTML = '';
+        if (totalPages <= 1) return;
+        // Previous button
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'ep-pagination-btn';
+        prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i> Previous';
+        prevBtn.disabled = currentEpisodePage === 1;
+        prevBtn.onclick = () => {
+            if (currentEpisodePage > 1) {
+                currentEpisodePage--;
+                renderEpisodes();
+            }
+        };
+        paginationDiv.appendChild(prevBtn);
+        // Page numbers (show all if less than 7, else show limited)
+        const pageNumbersDiv = document.createElement('div');
+        pageNumbersDiv.className = 'page-numbers';
+        let startPage = Math.max(1, currentEpisodePage - 2);
+        let endPage = Math.min(totalPages, currentEpisodePage + 2);
+        if (endPage - startPage < 4) {
+            startPage = Math.max(1, endPage - 4);
+            endPage = Math.min(totalPages, startPage + 4);
+        }
+        for (let i = startPage; i <= endPage; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.textContent = i;
+            pageBtn.className = `page-num ${i === currentEpisodePage ? 'active' : ''}`;
+            pageBtn.onclick = () => {
+                currentEpisodePage = i;
+                renderEpisodes();
+            };
+            pageNumbersDiv.appendChild(pageBtn);
+        }
+        paginationDiv.appendChild(pageNumbersDiv);
+        // Next button
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'ep-pagination-btn';
+        nextBtn.innerHTML = 'Next <i class="fas fa-chevron-right"></i>';
+        nextBtn.disabled = currentEpisodePage === totalPages;
+        nextBtn.onclick = () => {
+            if (currentEpisodePage < totalPages) {
+                currentEpisodePage++;
+                renderEpisodes();
+            }
+        };
+        paginationDiv.appendChild(nextBtn);
     }
 
     function playEpisode(season, episode) {
