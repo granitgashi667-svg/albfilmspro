@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>AlbFilms24 - Online Streaming </title>
+    <title>AlbFilms24 - Online Streaming HD</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -12,12 +12,53 @@
         body { background: #0a0a0f; color: #fff; font-family: 'Inter', sans-serif; }
         .sidebar { position: fixed; left: 0; top: 0; width: 80px; height: 100vh; background: rgba(10,10,15,0.96); backdrop-filter: blur(12px); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 30px 0; z-index: 100; border-right: 1px solid rgba(255,255,255,0.08); }
         .sidebar-top, .sidebar-bottom { display: flex; flex-direction: column; align-items: center; gap: 25px; }
-        .sidebar a { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #aaa; gap: 5px; transition: 0.2s; font-size: 11px; font-weight: 500; }
-        .sidebar a i, .sidebar a .provider-icon { font-size: 24px; width: auto; text-align: center; }
-        .sidebar a .provider-icon { font-weight: 700; font-family: 'Inter', sans-serif; font-style: normal; }
-        .sidebar a span { font-size: 11px; }
-        .sidebar a:hover, .sidebar a.active { color: #e50914; transform: translateY(-3px); }
+        .sidebar a, .sidebar .genre-dropdown { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #aaa; gap: 5px; transition: 0.2s; font-size: 11px; font-weight: 500; cursor: pointer; }
+        .sidebar a i, .sidebar .genre-dropdown i { font-size: 24px; }
+        .sidebar a span, .sidebar .genre-dropdown span { font-size: 11px; }
+        .sidebar a:hover, .sidebar a.active, .sidebar .genre-dropdown:hover { color: #e50914; transform: translateY(-3px); }
+        /* Dropdown për zhanre */
+        .genre-dropdown { position: relative; }
+        .genre-menu {
+            position: absolute;
+            left: 70px;
+            top: 0;
+            background: #1a1c22;
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 10px 0;
+            display: none;
+            flex-direction: column;
+            min-width: 160px;
+            z-index: 200;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .genre-dropdown:hover .genre-menu { display: flex; }
+        .genre-menu a {
+            padding: 8px 20px;
+            color: #ddd;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.2s;
+            display: block;
+        }
+        .genre-menu a:hover { background: #e50914; color: white; }
+        /* Mobile: dropdown toggle */
+        .genre-dropdown.mobile-active .genre-menu {
+            display: flex;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            max-height: 70vh;
+            overflow-y: auto;
+            z-index: 10000;
+        }
+        .sidebar .provider-icon { font-weight: 700; font-family: 'Inter', sans-serif; font-style: normal; }
         .main { margin-left: 80px; padding: 20px 40px; max-width: calc(100% - 80px); }
+        /* ... pjesa tjetër e stileve (slider, grid, etj.) mbetet e njëjtë ... */
+        /* (për kursim hapësire, në këtë përgjigje do të përfshij gjithë kodin e plotë, por këtu po e shkruaj të plotë) */
         .hero-slider { position: relative; margin-bottom: 40px; border-radius: 28px; overflow: hidden; box-shadow: 0 25px 40px -12px rgba(0,0,0,0.6); }
         .swiper { width: 100%; height: 600px; }
         .swiper-slide { position: relative; }
@@ -33,7 +74,8 @@
         .btn-watch { background: #e50914; border: none; padding: 12px 32px; border-radius: 50px; color: white; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.25s; display: inline-flex; align-items: center; gap: 10px; }
         .btn-watch:hover { background: #b81d24; transform: scale(1.02); }
         .slider-static-content { position: absolute; top: 20px; left: 20px; transform: none; text-align: left; z-index: 20; width: auto; max-width: none; pointer-events: none; }
-        .slider-static-content h1 { font-size: 28px; font-weight: 500; font-family: 'Playfair Display', serif; background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(229,9,20,0.8)); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: 0px; margin-bottom: 0; pointer-events: none; text-shadow: none; }
+        .slider-static-content h1 { font-size: 28px; font-weight: 500; font-family: 'Playfair Display', serif; background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(229,9,20,0.8)); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: 0px; margin-bottom: 0; pointer-events: none; text-shadow: none; display: flex; align-items: center; gap: 8px; }
+        .slider-static-content h1 i { background: none; -webkit-background-clip: unset; color: #e50914; font-size: 32px; }
         .slider-search { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 500px; pointer-events: auto; }
         .slider-search input { width: 100%; padding: 14px 24px; border-radius: 60px; border: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); color: white; font-size: 16px; outline: none; text-align: center; border: 1px solid rgba(255,255,255,0.3); }
         .slider-search input:focus { background: rgba(0,0,0,0.8); border-color: #e50914; }
@@ -57,18 +99,7 @@
         .watchlater-btn i.fas { color: #4caf50; }
         .watchlater-btn i.far { color: #fff; }
         .favorite-btn:hover, .watchlater-btn:hover { transform: scale(1.1); background: rgba(0,0,0,0.8); }
-        /* Preview i përmirësuar - tani me absolute dhe pozicionim dinamik */
-        .preview-rich {
-            position: absolute;
-            width: 480px;
-            background: #1a1c22;
-            border-radius: 20px;
-            overflow: hidden;
-            z-index: 10000 !important;
-            border: 1px solid #e50914;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.6);
-            pointer-events: auto;
-        }
+        .preview-rich { position: absolute; width: 480px; background: #1a1c22; border-radius: 20px; overflow: hidden; z-index: 10000 !important; border: 1px solid #e50914; box-shadow: 0 20px 35px rgba(0,0,0,0.6); pointer-events: auto; }
         .preview-trailer iframe { width: 100%; height: 270px; border: none; }
         .preview-info { padding: 16px; }
         .preview-info h4 { font-size: 18px; margin-bottom: 8px; color: #e50914; }
@@ -100,11 +131,77 @@
         .provider-genre-btn.active, .provider-genre-btn:hover { background: #e50914; color: white; }
         
         @media (max-width: 768px) {
-            .sidebar { position: fixed; bottom: 0; top: auto; left: 0; width: 100%; height: auto; min-height: 65px; flex-direction: row; justify-content: flex-start; align-items: center; overflow-x: auto; overflow-y: hidden; white-space: nowrap; gap: 20px; padding: 8px 16px; background: rgba(10,10,15,0.98); border-right: none; border-top: 1px solid rgba(255,255,255,0.08); z-index: 200; }
-            .sidebar-top, .sidebar-bottom { flex-direction: row; gap: 20px; margin: 0; }
-            .sidebar a { flex-direction: column; flex-shrink: 0; width: auto; }
-            .sidebar a span { display: none; }
-            .sidebar a i, .sidebar a .provider-icon { font-size: 22px; }
+            .sidebar {
+                position: fixed;
+                bottom: 0;
+                top: auto;
+                left: 0;
+                width: 100%;
+                height: auto;
+                min-height: 65px;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                overflow-x: auto;
+                overflow-y: hidden;
+                white-space: nowrap;
+                gap: 15px;
+                padding: 8px 16px;
+                background: rgba(10,10,15,0.98);
+                border-right: none;
+                border-top: 1px solid rgba(255,255,255,0.08);
+                z-index: 200;
+                scrollbar-width: thin;
+                scrollbar-color: #e50914 #1e2026;
+            }
+            .sidebar::-webkit-scrollbar { height: 3px; }
+            .sidebar::-webkit-scrollbar-thumb { background: #e50914; border-radius: 10px; }
+            .sidebar::after {
+                content: '';
+                position: sticky;
+                right: 0;
+                top: 0;
+                height: 100%;
+                width: 30px;
+                background: linear-gradient(90deg, transparent, rgba(10,10,15,0.95));
+                pointer-events: none;
+                z-index: 201;
+            }
+            .sidebar-top, .sidebar-bottom {
+                flex-direction: row;
+                gap: 20px;
+                margin: 0;
+            }
+            .sidebar a, .sidebar .genre-dropdown {
+                flex-direction: column;
+                flex-shrink: 0;
+                width: auto;
+            }
+            .sidebar a span, .sidebar .genre-dropdown span { display: none; }
+            .sidebar a i, .sidebar .genre-dropdown i, .sidebar .provider-icon { font-size: 22px; }
+            .genre-dropdown .genre-menu {
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                width: 200px;
+                max-height: 70vh;
+                overflow-y: auto;
+                display: none;
+                z-index: 10000;
+            }
+            .genre-dropdown.mobile-active .genre-menu { display: flex; }
+            .search-mobile-btn {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+                color: #aaa;
+                font-size: 22px;
+                flex-shrink: 0;
+                cursor: pointer;
+            }
+            .search-mobile-btn:hover { color: #e50914; }
             .main { margin-left: 0; padding: 15px 12px; max-width: 100%; margin-bottom: 70px; }
             .swiper { height: 400px; }
             .slide-description-card { left: 15px; bottom: 20px; max-width: calc(100% - 30px); padding: 16px; }
@@ -137,6 +234,10 @@
         <a href="#" id="homeLink"><i class="fas fa-home"></i><span>Home</span></a>
         <a href="#" id="moviesLink"><i class="fas fa-film"></i><span>Movies</span></a>
         <a href="tvshows.html" id="tvShowLink"><i class="fas fa-tv"></i><span>TV Shows</span></a>
+        <div class="genre-dropdown" id="genreDropdown">
+            <i class="fas fa-th-large"></i><span>Genres</span>
+            <div class="genre-menu" id="genreMenu"></div>
+        </div>
         <a href="#" id="favoritesLink"><i class="fas fa-heart"></i><span>Favorites</span></a>
         <a href="#" id="watchlistLink"><i class="fas fa-clock"></i><span>Watch Later</span></a>
         <a href="#" id="netflixLink"><span class="provider-icon">N</span><span>Netflix</span></a>
@@ -145,6 +246,7 @@
     </div>
     <div class="sidebar-bottom">
         <a href="#" id="userIconSidebar"><i class="fas fa-user-circle"></i><span>Login</span></a>
+        <div class="search-mobile-btn" id="mobileSearchBtn"><i class="fas fa-search"></i><span>Search</span></div>
     </div>
 </div>
 
@@ -157,7 +259,7 @@
             <div class="swiper-pagination"></div>
         </div>
         <div class="slider-static-content">
-            <h1>ALBFILMS24.COM</h1>
+            <h1><i class="fas fa-film"></i> AlbFilms24</h1>
         </div>
         <div class="slider-search">
             <input type="text" id="searchInputSlider" placeholder="Search movies, series...">
@@ -197,6 +299,7 @@
     </div>
 
     <div id="mainContent">
+        <!-- 14 genre sections (i pandryshuar) -->
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-bolt"></i> Action</h2></div><div class="movies-grid" id="actionGrid"></div><div class="pagination-controls" id="actionPagination"></div></div>
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-laugh"></i> Comedy</h2></div><div class="movies-grid" id="comedyGrid"></div><div class="pagination-controls" id="comedyPagination"></div></div>
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-theater-masks"></i> Drama</h2></div><div class="movies-grid" id="dramaGrid"></div><div class="pagination-controls" id="dramaPagination"></div></div>
@@ -364,76 +467,11 @@
     function showWatchlist() { document.getElementById('mainContent').style.display = 'none'; document.getElementById('searchResultsContainer').style.display = 'none'; document.getElementById('favoritesSection').classList.remove('active'); document.getElementById('providerSection').style.display = 'none'; document.getElementById('watchlistSection').classList.add('active'); displayWatchlist(); }
     function showToast(msg) { const toast = document.getElementById('toast'); toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
     function createCard(item, isTv, containerId) { const card = document.createElement('div'); card.className = isTv ? 'tv-card' : 'movie-card'; const id = item.id, type = isTv ? 'tv' : 'movie'; const title = item.title || item.name; const year = (item.release_date || item.first_air_date || '').split('-')[0] || 'N/A'; const rating = item.vote_average ? item.vote_average.toFixed(1) : '?'; const poster = item.poster_path || ''; const isFav = isFavorite(id, type); const isWatch = isWatchlist(id, type); card.innerHTML = `<div class="card-icons"><div class="favorite-btn" data-id="${id}" data-type="${type}" data-title="${title.replace(/'/g,"\\'")}" data-poster="${poster}"><i class="${isFav ? 'fas' : 'far'} fa-heart"></i></div><div class="watchlater-btn" data-id="${id}" data-type="${type}" data-title="${title.replace(/'/g,"\\'")}" data-poster="${poster}"><i class="${isWatch ? 'fas' : 'far'} fa-clock"></i></div></div><img class="poster" src="${poster ? IMG+poster : 'https://via.placeholder.com/300x450?text=No+Image'}" alt="${title}"><div class="card-info"><h4>${title}</h4><p>${year} ⭐ ${rating}</p></div>`; let hoverTimeout; card.addEventListener('mouseenter', () => { if (window.innerWidth > 768) hoverTimeout = setTimeout(() => showRichPreview(item, card, isTv), 400); }); card.addEventListener('mouseleave', () => { clearTimeout(hoverTimeout); if (window.innerWidth > 768) setTimeout(() => { if (activePreview && !activePreview.matches(':hover') && !card.matches(':hover')) { removePreview(); currentCard = null; } }, 100); }); card.addEventListener('click', (e) => { if (e.target.closest('.favorite-btn') || e.target.closest('.watchlater-btn')) return; if (isTv) window.location.href = `tv.html?id=${id}`; else window.location.href = `watch.html?id=${id}&type=movie`; }); const favBtn = card.querySelector('.favorite-btn'); const watchBtn = card.querySelector('.watchlater-btn'); favBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleFavorite(id, type, title, poster); }); watchBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleWatchlist(id, type, title, poster); }); document.getElementById(containerId).appendChild(card); }
-
-    // =============== FUNKSIONI I RREGULLUAR I PREVIEW (punon edhe pas scroll-it) ===============
-    function showRichPreview(item, cardEl, isTv) {
-        if (window.innerWidth <= 768) return;
-        if (activePreview && currentCard === cardEl) return;
-        removePreview();
-        currentCard = cardEl;
-        const id = item.id;
-        const type = isTv ? 'tv' : 'movie';
-        fetch(`${BASE}/${type}/${id}?api_key=${API_KEY}&language=en-US`)
-            .then(r => r.json())
-            .then(details => {
-                fetch(`${BASE}/${type}/${id}/videos?api_key=${API_KEY}`)
-                    .then(r => r.json())
-                    .then(videos => {
-                        const trailer = videos.results?.find(v => v.type === 'Trailer' && v.site === 'YouTube');
-                        const title = details.title || details.name;
-                        const year = (details.release_date || details.first_air_date || '').split('-')[0] || 'N/A';
-                        const rating = details.vote_average ? details.vote_average.toFixed(1) : 'N/A';
-                        const overview = details.overview ? details.overview.substring(0, 180) : 'No description';
-                        const preview = document.createElement('div');
-                        preview.className = 'preview-rich';
-                        preview.innerHTML = `
-                            <div class="preview-trailer">
-                                ${trailer ? `<iframe src="https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>` : '<div style="height:270px; background:#111; display:flex; align-items:center; justify-content:center;">🎬 No trailer</div>'}
-                            </div>
-                            <div class="preview-info">
-                                <h4>${title} (${year})</h4>
-                                <p>⭐ ${rating}/10</p>
-                                <p>${overview}...</p>
-                            </div>
-                        `;
-                        document.body.appendChild(preview);
-                        activePreview = preview;
-                        
-                        // Llogarit pozicionin në bazë të pamjes së dritares
-                        const rect = cardEl.getBoundingClientRect();
-                        let left = rect.left + rect.width + 15;
-                        let top = rect.top + window.scrollY;
-                        
-                        // Rregulloni nëse del jashtë majtas
-                        if (left + 480 > window.innerWidth) {
-                            left = rect.left - 490;
-                        }
-                        // Rregulloni nëse del jashtë poshtë
-                        if (top + 450 > window.scrollY + window.innerHeight) {
-                            top = window.scrollY + window.innerHeight - 460;
-                        }
-                        // Rregulloni nëse del jashtë sipër
-                        if (top < window.scrollY) {
-                            top = window.scrollY + 10;
-                        }
-                        
-                        preview.style.top = top + 'px';
-                        preview.style.left = left + 'px';
-                        preview.style.position = 'absolute';
-                        preview.style.zIndex = '10000';
-                        
-                        preview.addEventListener('mouseenter', () => { if (previewTimeout) clearTimeout(previewTimeout); });
-                        preview.addEventListener('mouseleave', () => {
-                            previewTimeout = setTimeout(() => { removePreview(); currentCard = null; }, 300);
-                        });
-                    })
-                    .catch(e => console.error('Video fetch error:', e));
-            })
-            .catch(e => console.error('Details fetch error:', e));
-    }
+    function showRichPreview(item, cardEl, isTv) { if (window.innerWidth <= 768) return; if (activePreview && currentCard === cardEl) return; removePreview(); currentCard = cardEl; const id = item.id; const type = isTv ? 'tv' : 'movie'; fetch(`${BASE}/${type}/${id}?api_key=${API_KEY}&language=en-US`).then(r=>r.json()).then(details => { fetch(`${BASE}/${type}/${id}/videos?api_key=${API_KEY}`).then(r=>r.json()).then(videos => { const trailer = videos.results?.find(v => v.type === 'Trailer' && v.site === 'YouTube'); const title = details.title || details.name; const year = (details.release_date || details.first_air_date || '').split('-')[0] || 'N/A'; const rating = details.vote_average ? details.vote_average.toFixed(1) : 'N/A'; const overview = details.overview ? details.overview.substring(0, 180) : 'No description'; const preview = document.createElement('div'); preview.className = 'preview-rich'; preview.innerHTML = `<div class="preview-trailer">${trailer ? `<iframe src="https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>` : '<div style="height:270px; background:#111; display:flex; align-items:center; justify-content:center;">🎬 No trailer</div>'}</div><div class="preview-info"><h4>${title} (${year})</h4><p>⭐ ${rating}/10</p><p>${overview}...</p></div>`; document.body.appendChild(preview); activePreview = preview; const rect = cardEl.getBoundingClientRect(); let left = rect.left + rect.width + 15; let top = rect.top + window.scrollY; if (left + 480 > window.innerWidth) left = rect.left - 490; if (top + 450 > window.scrollY + window.innerHeight) top = window.scrollY + window.innerHeight - 460; if (top < window.scrollY) top = window.scrollY + 10; preview.style.top = top + 'px'; preview.style.left = left + 'px'; preview.style.position = 'absolute'; preview.style.zIndex = '10000'; preview.addEventListener('mouseenter', () => { if (previewTimeout) clearTimeout(previewTimeout); }); preview.addEventListener('mouseleave', () => { previewTimeout = setTimeout(() => { removePreview(); currentCard = null; }, 300); }); }).catch(e => console.error('Video fetch error:', e)); }).catch(e => console.error('Details fetch error:', e)); }
     function removePreview() { if (activePreview) { activePreview.remove(); activePreview = null; } if (previewTimeout) clearTimeout(previewTimeout); }
 
     document.getElementById('searchInputSlider').addEventListener('input', e => searchContent(e.target.value));
+    document.getElementById('mobileSearchBtn').addEventListener('click', function() { const searchInput = document.getElementById('searchInputSlider'); if (searchInput) { searchInput.focus(); searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' }); } });
     document.getElementById('userIconSidebar').onclick = () => document.getElementById('authModal').style.display = 'flex';
     document.querySelector('.close-modal').onclick = () => document.getElementById('authModal').style.display = 'none';
     document.getElementById('demoLoginBtn').onclick = () => { showToast('Demo login'); document.getElementById('authModal').style.display = 'none'; };
@@ -449,6 +487,51 @@
     document.getElementById('disneyLink').addEventListener('click', (e) => { e.preventDefault(); showProvider('Disney+', PROVIDER_IDS.disney); });
     document.getElementById('providerSearch').addEventListener('input', (e) => { currentProviderSearch = e.target.value; if (currentProviderSearch.length >= 3 || currentProviderSearch.length === 0) { currentProviderPage = 1; loadProviderContent(); } });
     document.querySelectorAll('.provider-tab').forEach(tab => { tab.addEventListener('click', () => { document.querySelectorAll('.provider-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); currentProviderType = tab.dataset.type; currentProviderPage = 1; currentProviderSearch = ''; currentProviderGenre = ''; document.getElementById('providerSearch').value = ''; renderProviderGenres(); loadProviderContent(); }); });
+
+    // ============ GENRES DROPDOWN (për sidebar) ============
+    const genreList = [
+        { id: 28, name: 'Action' }, { id: 35, name: 'Comedy' }, { id: 18, name: 'Drama' },
+        { id: 27, name: 'Horror' }, { id: 10749, name: 'Romance' }, { id: 878, name: 'Sci-Fi' },
+        { id: 99, name: 'Documentary' }, { id: 80, name: 'Crime' }, { id: 12, name: 'Adventure' },
+        { id: 14, name: 'Fantasy' }, { id: 10752, name: 'War' }, { id: 37, name: 'Western' },
+        { id: 10402, name: 'Music' }, { id: 36, name: 'History' }
+    ];
+    const genreMenu = document.getElementById('genreMenu');
+    genreList.forEach(g => {
+        const a = document.createElement('a');
+        a.href = '#';
+        a.textContent = g.name;
+        a.dataset.genreId = g.id;
+        a.addEventListener('click', (e) => {
+            e.preventDefault();
+            const genreId = parseInt(e.currentTarget.dataset.genreId);
+            // Ngarko filmat e zhanrit në rreshtin "Trending Movies" (topRatedGrid)
+            loadGenreMovies(genreId, 'topRatedGrid', 'moviePagination', 1);
+            // Lëviz te ai seksion
+            document.getElementById('topRatedGrid').closest('.genre-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            showToast(`Showing ${g.name} movies`);
+            // Në mobile, mbylle menunë
+            if (window.innerWidth <= 768) {
+                document.getElementById('genreDropdown').classList.remove('mobile-active');
+            }
+        });
+        genreMenu.appendChild(a);
+    });
+    // Për mobile: klikimi mbi Genres shfaq/fsheh dropdown
+    const genreDropdown = document.getElementById('genreDropdown');
+    genreDropdown.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+            e.preventDefault();
+            genreDropdown.classList.toggle('mobile-active');
+            e.stopPropagation();
+        }
+    });
+    // Mbyll dropdown-in kur klikon diku tjetër në mobile
+    document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768 && !genreDropdown.contains(e.target)) {
+            genreDropdown.classList.remove('mobile-active');
+        }
+    });
 
     loadHeroSlider();
     initGenres();
