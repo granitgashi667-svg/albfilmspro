@@ -86,12 +86,42 @@
         .provider-genres { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0; }
         .provider-genre-btn { background: #1e2026; border: none; padding: 6px 16px; border-radius: 30px; color: #ccc; cursor: pointer; font-size: 13px; }
         .provider-genre-btn.active, .provider-genre-btn:hover { background: #e50914; color: white; }
+        
         @media (max-width: 768px) {
-            .sidebar { position: fixed; bottom: 0; top: auto; left: 0; width: 100%; height: 65px; flex-direction: row; justify-content: space-around; padding: 8px 10px; background: rgba(10,10,15,0.98); border-right: none; border-top: 1px solid rgba(255,255,255,0.08); z-index: 200; }
-            .sidebar-top, .sidebar-bottom { flex-direction: row; gap: 20px; margin: 0; }
+            .sidebar {
+                position: fixed;
+                bottom: 0;
+                top: auto;
+                left: 0;
+                width: 100%;
+                height: auto;
+                min-height: 65px;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                overflow-x: auto;
+                overflow-y: hidden;
+                white-space: nowrap;
+                gap: 20px;
+                padding: 8px 16px;
+                background: rgba(10,10,15,0.98);
+                border-right: none;
+                border-top: 1px solid rgba(255,255,255,0.08);
+                z-index: 200;
+            }
+            .sidebar-top, .sidebar-bottom {
+                flex-direction: row;
+                gap: 20px;
+                margin: 0;
+            }
+            .sidebar a {
+                flex-direction: column;
+                flex-shrink: 0;
+                width: auto;
+            }
             .sidebar a span { display: none; }
-            .sidebar a i { font-size: 24px; }
-            .main { margin-left: 0; padding: 15px 12px; max-width: 100%; margin-bottom: 65px; }
+            .sidebar a i { font-size: 22px; }
+            .main { margin-left: 0; padding: 15px 12px; max-width: 100%; margin-bottom: 70px; }
             .swiper { height: 400px; }
             .slide-description-card { left: 15px; bottom: 20px; max-width: calc(100% - 30px); padding: 16px; }
             .slide-description-card h2 { font-size: 24px; }
@@ -116,6 +146,7 @@
     </style>
 </head>
 <body>
+
 <div class="sidebar">
     <div class="sidebar-top">
         <a href="#" id="homeLink"><i class="fas fa-home"></i><span>Home</span></a>
@@ -181,7 +212,7 @@
     </div>
 
     <div id="mainContent">
-        <!-- 14 genre sections (i shkurtuar për hapësirë, por vazhdojnë) -->
+        <!-- 14 genre sections (shkurtuar për hapësirë por funksional) -->
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-bolt"></i> Action</h2></div><div class="movies-grid" id="actionGrid"></div><div class="pagination-controls" id="actionPagination"></div></div>
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-laugh"></i> Comedy</h2></div><div class="movies-grid" id="comedyGrid"></div><div class="pagination-controls" id="comedyPagination"></div></div>
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-theater-masks"></i> Drama</h2></div><div class="movies-grid" id="dramaGrid"></div><div class="pagination-controls" id="dramaPagination"></div></div>
@@ -248,10 +279,9 @@
     function removeWatchlist(id, type) { const idx = watchlist.findIndex(w => w.id == id && w.type === type); if (idx !== -1) { watchlist.splice(idx,1); saveWatchlist(); showToast(`⏰ Removed from watch later`); updateIcons(id,type); if (document.getElementById('watchlistSection').classList.contains('active')) displayWatchlist(); } }
     function toggleWatchlist(id,type,title,poster) { if (isWatchlist(id,type)) removeWatchlist(id,type); else addWatchlist({ id,type,title,poster }); }
 
-    function displayFavorites() { /* si më parë - për hapësirë e kam shkurtuar, por funksionon */ const c=document.getElementById('favoritesGrid'); if(!c)return; c.innerHTML=''; if(favorites.length===0){c.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;">No favorites yet.</div>';return;} favorites.forEach(fav=>{const card=document.createElement('div');card.className='movie-card';card.innerHTML=`<div class="card-icons"><div class="favorite-btn" data-id="${fav.id}" data-type="${fav.type}" data-title="${fav.title.replace(/'/g,"\\'")}" data-poster="${fav.poster||''}"><i class="fas fa-heart"></i></div><div class="watchlater-btn" data-id="${fav.id}" data-type="${fav.type}" data-title="${fav.title.replace(/'/g,"\\'")}" data-poster="${fav.poster||''}"><i class="${isWatchlist(fav.id,fav.type)?'fas':'far'} fa-clock"></i></div></div><img class="poster" src="${fav.poster?IMG+fav.poster:'https://via.placeholder.com/300x450?text=No+Image'}" alt="${fav.title}"><div class="card-info"><h4>${fav.title}</h4><p>⭐ Favorite</p></div>`; card.addEventListener('click',(e)=>{if(e.target.closest('.favorite-btn')||e.target.closest('.watchlater-btn'))return; if(fav.type==='tv')window.location.href=`tv.html?id=${fav.id}`; else window.location.href=`watch.html?id=${fav.id}&type=movie`;}); const favBtn=card.querySelector('.favorite-btn'); const watchBtn=card.querySelector('.watchlater-btn'); favBtn.addEventListener('click',(e)=>{e.stopPropagation(); toggleFavorite(fav.id,fav.type,fav.title,fav.poster);}); watchBtn.addEventListener('click',(e)=>{e.stopPropagation(); toggleWatchlist(fav.id,fav.type,fav.title,fav.poster);}); c.appendChild(card);}); }
+    function displayFavorites() { const c=document.getElementById('favoritesGrid'); if(!c)return; c.innerHTML=''; if(favorites.length===0){c.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;">No favorites yet.</div>';return;} favorites.forEach(fav=>{const card=document.createElement('div');card.className='movie-card';card.innerHTML=`<div class="card-icons"><div class="favorite-btn" data-id="${fav.id}" data-type="${fav.type}" data-title="${fav.title.replace(/'/g,"\\'")}" data-poster="${fav.poster||''}"><i class="fas fa-heart"></i></div><div class="watchlater-btn" data-id="${fav.id}" data-type="${fav.type}" data-title="${fav.title.replace(/'/g,"\\'")}" data-poster="${fav.poster||''}"><i class="${isWatchlist(fav.id,fav.type)?'fas':'far'} fa-clock"></i></div></div><img class="poster" src="${fav.poster?IMG+fav.poster:'https://via.placeholder.com/300x450?text=No+Image'}" alt="${fav.title}"><div class="card-info"><h4>${fav.title}</h4><p>⭐ Favorite</p></div>`; card.addEventListener('click',(e)=>{if(e.target.closest('.favorite-btn')||e.target.closest('.watchlater-btn'))return; if(fav.type==='tv')window.location.href=`tv.html?id=${fav.id}`; else window.location.href=`watch.html?id=${fav.id}&type=movie`;}); const favBtn=card.querySelector('.favorite-btn'); const watchBtn=card.querySelector('.watchlater-btn'); favBtn.addEventListener('click',(e)=>{e.stopPropagation(); toggleFavorite(fav.id,fav.type,fav.title,fav.poster);}); watchBtn.addEventListener('click',(e)=>{e.stopPropagation(); toggleWatchlist(fav.id,fav.type,fav.title,fav.poster);}); c.appendChild(card);}); }
     function displayWatchlist() { const c=document.getElementById('watchlistGrid'); if(!c)return; c.innerHTML=''; if(watchlist.length===0){c.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;">No watch later items.</div>';return;} watchlist.forEach(item=>{const card=document.createElement('div');card.className='movie-card';card.innerHTML=`<div class="card-icons"><div class="favorite-btn" data-id="${item.id}" data-type="${item.type}" data-title="${item.title.replace(/'/g,"\\'")}" data-poster="${item.poster||''}"><i class="${isFavorite(item.id,item.type)?'fas':'far'} fa-heart"></i></div><div class="watchlater-btn" data-id="${item.id}" data-type="${item.type}" data-title="${item.title.replace(/'/g,"\\'")}" data-poster="${item.poster||''}"><i class="fas fa-clock"></i></div></div><img class="poster" src="${item.poster?IMG+item.poster:'https://via.placeholder.com/300x450?text=No+Image'}" alt="${item.title}"><div class="card-info"><h4>${item.title}</h4><p>⏰ Watch Later</p></div>`; card.addEventListener('click',(e)=>{if(e.target.closest('.favorite-btn')||e.target.closest('.watchlater-btn'))return; if(item.type==='tv')window.location.href=`tv.html?id=${item.id}`; else window.location.href=`watch.html?id=${item.id}&type=movie`;}); const favBtn=card.querySelector('.favorite-btn'); const watchBtn=card.querySelector('.watchlater-btn'); favBtn.addEventListener('click',(e)=>{e.stopPropagation(); toggleFavorite(item.id,item.type,item.title,item.poster);}); watchBtn.addEventListener('click',(e)=>{e.stopPropagation(); removeWatchlist(item.id,item.type);}); c.appendChild(card);}); }
 
-    // Provider logic
     const PROVIDER_IDS = { netflix:8, prime:9, disney:337 };
     let currentProviderId = null;
     let currentProviderType = 'movie';
@@ -339,8 +369,7 @@
         loadProviderContent();
     }
 
-    // Genre loaders (pjesa tjetër e kodit të mëparshëm)
-    async function loadGenreMovies(genreId, gridId, pagId, page = 1) { /* si më parë, por për hapësirë e lë shkurt */ const grid = document.getElementById(gridId); const pagContainer = document.getElementById(pagId); if (!grid) return; grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">Loading...</div>'; try { const res = await fetch(`${BASE}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc&vote_count.gte=100&language=en-US&page=${page}`); const data = await res.json(); const totalPages = Math.min(data.total_pages, 8); grid.innerHTML = ''; data.results.forEach(m => createCard(m, false, gridId)); pagContainer.innerHTML = ''; for (let i = 1; i <= totalPages; i++) { const btn = document.createElement('button'); btn.textContent = i; btn.className = `page-btn ${i === page ? 'active' : ''}`; btn.onclick = (function(p) { return function() { loadGenreMovies(genreId, gridId, pagId, p); const section = document.getElementById(gridId).closest('.genre-section'); if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' }); }; })(i); pagContainer.appendChild(btn); } } catch(e) { console.error(e); grid.innerHTML = '<div>Error</div>'; } }
+    async function loadGenreMovies(genreId, gridId, pagId, page = 1) { const grid = document.getElementById(gridId); const pagContainer = document.getElementById(pagId); if (!grid) return; grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">Loading...</div>'; try { const res = await fetch(`${BASE}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc&vote_count.gte=100&language=en-US&page=${page}`); const data = await res.json(); const totalPages = Math.min(data.total_pages, 8); grid.innerHTML = ''; data.results.forEach(m => createCard(m, false, gridId)); pagContainer.innerHTML = ''; for (let i = 1; i <= totalPages; i++) { const btn = document.createElement('button'); btn.textContent = i; btn.className = `page-btn ${i === page ? 'active' : ''}`; btn.onclick = (function(p) { return function() { loadGenreMovies(genreId, gridId, pagId, p); const section = document.getElementById(gridId).closest('.genre-section'); if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' }); }; })(i); pagContainer.appendChild(btn); } } catch(e) { console.error(e); grid.innerHTML = '<div>Error</div>'; } }
     const customTvIds = [1396,60573,1399,46530,1416,1402,4629,62074,48866,46298,44608,47061,20798,70646,456,72759,1405,1434,1398,1394,46285,94941,1488,1390,76479,44217,651,4614,1100,82856,76489,112733,2691,65338,1408,1397,1392,44130,172,1437,45625,2907,37854,46261,46742,600,217,556,73586,608,313,358,4600,76391,395,1420,1401,1477,1530,1406,1425,827,65782,46672,86834,505,1306,116,526,611,451,509,768,2236,225,620,90510,476,134,935,500,655,269,1871,244,622,670,690,713,714,715,716,717,718,719,720,721,722,723,724,334,164,21,438,459,839,840,841,842,843,844,845,846,847,848,849,850,851,852,853];
     async function loadTVShows(page = 1) { const grid = document.getElementById('tvSeriesGrid'); const pagContainer = document.getElementById('tvPagination'); if (!grid) return; grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">Loading series...</div>'; try { const topRatedRes = await fetch(`${BASE}/tv/top_rated?api_key=${API_KEY}&language=en-US&page=${page}`); const topRatedData = await topRatedRes.json(); const totalPages = Math.min(topRatedData.total_pages, 8); if (page === 1) { grid.innerHTML = ''; for (let id of customTvIds.slice(0,250)) { try { const r = await fetch(`${BASE}/tv/${id}?api_key=${API_KEY}&language=en-US`); const show = await r.json(); if (show.id) createCard(show, true, 'tvSeriesGrid'); } catch(e) {} } } else { grid.innerHTML = ''; } topRatedData.results.forEach(show => createCard(show, true, 'tvSeriesGrid')); pagContainer.innerHTML = ''; for (let i = 1; i <= totalPages; i++) { const btn = document.createElement('button'); btn.textContent = i; btn.className = `page-btn ${i === page ? 'active' : ''}`; btn.onclick = (function(p) { return function() { loadTVShows(p); const section = document.getElementById('tvSeriesGrid').closest('.genre-section'); if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' }); }; })(i); pagContainer.appendChild(btn); } } catch(e) { console.error(e); grid.innerHTML = '<div>Error loading series</div>'; } }
     async function loadHeroSlider() { const res = await fetch(`${BASE}/trending/movie/day?api_key=${API_KEY}&language=en-US`); const data = await res.json(); const slides = data.results.slice(0, 6); const wrapper = document.getElementById('heroSlider'); wrapper.innerHTML = ''; for (const m of slides) { const [det, credit] = await Promise.all([fetch(`${BASE}/movie/${m.id}?api_key=${API_KEY}&language=en-US`).then(r=>r.json()), fetch(`${BASE}/movie/${m.id}/credits?api_key=${API_KEY}&language=en-US`).then(r=>r.json())]); const rating = det.vote_average ? det.vote_average.toFixed(1) : 'N/A'; const castList = credit.cast ? credit.cast.slice(0,3).map(c=>c.name).join(', ') : 'N/A'; const overview = det.overview ? det.overview.substring(0,150) : 'No description'; const div = document.createElement('div'); div.className = 'swiper-slide'; div.innerHTML = `<img class="slide-bg" src="${BACKDROP + m.backdrop_path}" alt="${m.title}"><div class="slide-overlay"></div><div class="slide-description-card"><h2>${m.title}</h2><div class="slide-meta"><span class="rating"><i class="fas fa-star"></i> ${rating}/10</span><span><i class="fas fa-calendar-alt"></i> ${det.release_date?.split('-')[0] || 'N/A'}</span><span><i class="fas fa-clock"></i> ${det.runtime || '?'} min</span></div><p>${overview}...</p><div class="slide-cast"><i class="fas fa-users"></i> <strong>Cast:</strong> ${castList}</div><button class="btn-watch" onclick="location.href='watch.html?id=${m.id}&type=movie'"><i class="fas fa-play"></i> Watch Now</button></div>`; wrapper.appendChild(div); } if (swiper) swiper.destroy(); swiper = new Swiper('.heroSwiper', { loop: true, autoplay: { delay: 6000, disableOnInteraction: false }, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }, pagination: { el: '.swiper-pagination', clickable: true }, speed: 800 }); }
@@ -354,7 +383,6 @@
     function showRichPreview(item, cardEl, isTv) { if (window.innerWidth <= 768) return; if (activePreview && currentCard === cardEl) return; removePreview(); currentCard = cardEl; const id = item.id, type = isTv ? 'tv' : 'movie'; fetch(`${BASE}/${type}/${id}?api_key=${API_KEY}&language=en-US`).then(r=>r.json()).then(details => { fetch(`${BASE}/${type}/${id}/videos?api_key=${API_KEY}`).then(r=>r.json()).then(videos => { const trailer = videos.results?.find(v => v.type === 'Trailer' && v.site === 'YouTube'); const title = details.title || details.name; const year = (details.release_date || details.first_air_date || '').split('-')[0] || 'N/A'; const rating = details.vote_average ? details.vote_average.toFixed(1) : 'N/A'; const overview = details.overview ? details.overview.substring(0, 180) : 'No description'; const preview = document.createElement('div'); preview.className = 'preview-rich'; preview.innerHTML = `<div class="preview-trailer">${trailer ? `<iframe src="https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>` : '<div style="height:270px; background:#111; display:flex; align-items:center; justify-content:center;">🎬 No trailer</div>'}</div><div class="preview-info"><h4>${title} (${year})</h4><p>⭐ ${rating}/10</p><p>${overview}...</p></div>`; document.body.appendChild(preview); activePreview = preview; const rect = cardEl.getBoundingClientRect(); let left = rect.left + rect.width + 15; let top = rect.top + window.scrollY; if (left + 480 > window.innerWidth) left = rect.left - 490; if (top + 400 > window.innerHeight + window.scrollY) top = window.innerHeight + window.scrollY - 420; preview.style.top = top + 'px'; preview.style.left = left + 'px'; preview.addEventListener('mouseenter', () => { if (previewTimeout) clearTimeout(previewTimeout); }); preview.addEventListener('mouseleave', () => { previewTimeout = setTimeout(() => { removePreview(); currentCard = null; }, 300); }); }).catch(e => console.error(e)); }).catch(e => console.error(e)); }
     function removePreview() { if (activePreview) { activePreview.remove(); activePreview = null; } if (previewTimeout) clearTimeout(previewTimeout); }
 
-    // Event listeners
     document.getElementById('searchInputSlider').addEventListener('input', e => searchContent(e.target.value));
     document.getElementById('userIconSidebar').onclick = () => document.getElementById('authModal').style.display = 'flex';
     document.querySelector('.close-modal').onclick = () => document.getElementById('authModal').style.display = 'none';
