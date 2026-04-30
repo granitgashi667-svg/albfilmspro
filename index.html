@@ -13,7 +13,8 @@
         .sidebar { position: fixed; left: 0; top: 0; width: 80px; height: 100vh; background: rgba(10,10,15,0.96); backdrop-filter: blur(12px); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 30px 0; z-index: 100; border-right: 1px solid rgba(255,255,255,0.08); }
         .sidebar-top, .sidebar-bottom { display: flex; flex-direction: column; align-items: center; gap: 25px; }
         .sidebar a { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #aaa; gap: 5px; transition: 0.2s; font-size: 11px; font-weight: 500; }
-        .sidebar a i { font-size: 24px; }
+        .sidebar a i, .sidebar a .provider-icon { font-size: 24px; width: auto; text-align: center; }
+        .sidebar a .provider-icon { font-weight: 700; font-family: 'Inter', sans-serif; font-style: normal; }
         .sidebar a span { font-size: 11px; }
         .sidebar a:hover, .sidebar a.active { color: #e50914; transform: translateY(-3px); }
         .main { margin-left: 80px; padding: 20px 40px; max-width: calc(100% - 80px); }
@@ -120,7 +121,7 @@
                 width: auto;
             }
             .sidebar a span { display: none; }
-            .sidebar a i { font-size: 22px; }
+            .sidebar a i, .sidebar a .provider-icon { font-size: 22px; }
             .main { margin-left: 0; padding: 15px 12px; max-width: 100%; margin-bottom: 70px; }
             .swiper { height: 400px; }
             .slide-description-card { left: 15px; bottom: 20px; max-width: calc(100% - 30px); padding: 16px; }
@@ -154,9 +155,11 @@
         <a href="tvshows.html" id="tvShowLink"><i class="fas fa-tv"></i><span>TV Shows</span></a>
         <a href="#" id="favoritesLink"><i class="fas fa-heart"></i><span>Favorites</span></a>
         <a href="#" id="watchlistLink"><i class="fas fa-clock"></i><span>Watch Later</span></a>
-        <a href="#" id="netflixLink"><i class="fab fa-netflix"></i><span>Netflix</span></a>
+        <!-- Netflix: N instead of logo -->
+        <a href="#" id="netflixLink"><span class="provider-icon">N</span><span>Netflix</span></a>
         <a href="#" id="primeLink"><i class="fab fa-amazon"></i><span>Prime</span></a>
-        <a href="#" id="disneyLink"><i class="fab fa-disney"></i><span>Disney+</span></a>
+        <!-- Disney+: D instead of logo -->
+        <a href="#" id="disneyLink"><span class="provider-icon">D</span><span>Disney+</span></a>
     </div>
     <div class="sidebar-bottom">
         <a href="#" id="userIconSidebar"><i class="fas fa-user-circle"></i><span>Login</span></a>
@@ -212,7 +215,6 @@
     </div>
 
     <div id="mainContent">
-        <!-- 14 genre sections (shkurtuar për hapësirë por funksional) -->
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-bolt"></i> Action</h2></div><div class="movies-grid" id="actionGrid"></div><div class="pagination-controls" id="actionPagination"></div></div>
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-laugh"></i> Comedy</h2></div><div class="movies-grid" id="comedyGrid"></div><div class="pagination-controls" id="comedyPagination"></div></div>
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-theater-masks"></i> Drama</h2></div><div class="movies-grid" id="dramaGrid"></div><div class="pagination-controls" id="dramaPagination"></div></div>
