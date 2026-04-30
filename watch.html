@@ -1,16 +1,190 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Watch</title>
-<style>
-body{background:#000;margin:0}
-iframe{width:100%;height:100vh;border:none}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlbFilms24 - Watch Movie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            background: #0a0a0f;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: -1;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        .nav-bar {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 30px;
+        }
+        .back-btn {
+            background: rgba(30, 30, 40, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 10px 24px;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+        }
+        .back-btn:hover {
+            background: #e50914;
+            border-color: #e50914;
+            transform: translateX(-3px);
+        }
+        .movie-hero {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            background: rgba(20, 20, 30, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-left: 5px solid #e50914;
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.4);
+        }
+        .poster img {
+            width: 280px;
+            border-radius: 20px;
+            box-shadow: 0 15px 25px -8px rgba(0,0,0,0.5);
+        }
+        .details {
+            flex: 1;
+        }
+        .title {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff, #e50914);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+        .meta span {
+            background: #1e2026;
+            padding: 6px 16px;
+            border-radius: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .overview {
+            margin-bottom: 24px;
+            line-height: 1.6;
+            color: #ddd;
+            font-size: 16px;
+        }
+        .cast {
+            color: #aaa;
+            font-size: 14px;
+        }
+        .cast strong { color: #e50914; }
+        .player-wrapper {
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.5);
+            background: #000;
+        }
+        iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+            display: block;
+        }
+        @media (max-width: 700px) {
+            .poster img { width: 180px; }
+            .title { font-size: 28px; }
+            .movie-hero { padding: 20px; gap: 20px; }
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <div class="nav-bar">
+        <button class="back-btn" onclick="history.back()"><i class="fas fa-arrow-left"></i> Back to Home</button>
+    </div>
+    <div id="info" class="movie-hero"></div>
+    <div class="player-wrapper">
+        <iframe id="player" allowfullscreen allow="autoplay; fullscreen"></iframe>
+    </div>
+</div>
 
-<iframe src="https://vidmoly.com/e/XXXXXX" allowfullscreen></iframe>
+<script>
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
+    const type = params.get('type') || 'movie';
+    const API_KEY = '7a98db423d6e3a5ee922a3e51a09d135';
+    const IMG = 'https://image.tmdb.org/t/p/w500';
+    const BACKDROP = 'https://image.tmdb.org/t/p/original';
 
+    async function loadDetails() {
+        if (!id) return;
+        try {
+            const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=en-US&append_to_response=credits`);
+            const data = await res.json();
+            const title = data.title || data.name;
+            const year = (data.release_date || data.first_air_date || '').split('-')[0] || 'N/A';
+            const rating = data.vote_average?.toFixed(1) || 'N/A';
+            const runtime = data.runtime ? `${data.runtime} min` : 'N/A';
+            const cast = data.credits?.cast?.slice(0, 5).map(c => c.name).join(', ') || 'Information not available';
+            const poster = data.poster_path ? IMG + data.poster_path : '';
+            const overview = data.overview || 'No description available.';
+            const backdrop = data.backdrop_path ? BACKDROP + data.backdrop_path : '';
+            if (backdrop) document.body.style.backgroundImage = `url('${backdrop}')`;
+            document.getElementById('info').innerHTML = `
+                <div class="poster"><img src="${poster}" alt="${title}"></div>
+                <div class="details">
+                    <div class="title">${title}</div>
+                    <div class="meta">
+                        <span><i class="fas fa-calendar-alt"></i> ${year}</span>
+                        <span><i class="fas fa-star"></i> ${rating}/10</span>
+                        <span><i class="fas fa-clock"></i> ${runtime}</span>
+                    </div>
+                    <div class="overview">${overview}</div>
+                    <div class="cast"><i class="fas fa-users"></i> <strong>Cast:</strong> ${cast}</div>
+                </div>
+            `;
+            let embedUrl = `https://vidsrcme.ru/embed/movie/${id}`;
+            document.getElementById('player').src = embedUrl;
+        } catch (error) {
+            console.error('Error loading details:', error);
+            document.getElementById('info').innerHTML = '<div class="details">Error loading movie details.</div>';
+        }
+    }
+    loadDetails();
+</script>
 </body>
 </html>
