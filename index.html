@@ -10,44 +10,18 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #0a0a0f; color: #fff; font-family: 'Inter', sans-serif; }
-        /* Sidebar */
-        .sidebar {
-            position: fixed; left: 0; top: 0; width: 80px; height: 100vh;
-            background: rgba(10,10,15,0.96); backdrop-filter: blur(12px);
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: space-between; padding: 30px 0; z-index: 100;
-            border-right: 1px solid rgba(255,255,255,0.08);
-        }
+        .sidebar { position: fixed; left: 0; top: 0; width: 80px; height: 100vh; background: rgba(10,10,15,0.96); backdrop-filter: blur(12px); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 30px 0; z-index: 100; border-right: 1px solid rgba(255,255,255,0.08); }
         .sidebar-top, .sidebar-bottom { display: flex; flex-direction: column; align-items: center; gap: 25px; }
-        .sidebar a, .sidebar .genre-dropdown {
-            display: flex; flex-direction: column; align-items: center;
-            text-decoration: none; color: #aaa; gap: 5px; transition: 0.2s;
-            font-size: 11px; font-weight: 500; cursor: pointer;
-        }
+        .sidebar a, .sidebar .genre-dropdown { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #aaa; gap: 5px; transition: 0.2s; font-size: 11px; font-weight: 500; cursor: pointer; }
         .sidebar a i, .sidebar .genre-dropdown i { font-size: 24px; }
         .sidebar a span, .sidebar .genre-dropdown span { font-size: 11px; }
         .sidebar a:hover, .sidebar a.active, .sidebar .genre-dropdown:hover { color: #e50914; transform: translateY(-3px); }
-        /* Genres dropdown */
         .genre-dropdown { position: relative; }
-        .genre-menu {
-            position: absolute; left: 70px; top: 0;
-            background: #1a1c22; backdrop-filter: blur(12px);
-            border-radius: 16px; padding: 10px 0;
-            display: none; flex-direction: column;
-            min-width: 160px; z-index: 200;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
+        .genre-menu { position: absolute; left: 70px; top: 0; background: #1a1c22; backdrop-filter: blur(12px); border-radius: 16px; padding: 10px 0; display: none; flex-direction: column; min-width: 160px; z-index: 200; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
         .genre-dropdown:hover .genre-menu { display: flex; }
-        .genre-menu a {
-            padding: 8px 20px; color: #ddd; text-decoration: none;
-            font-size: 13px; transition: 0.2s; display: block;
-            white-space: nowrap;
-        }
+        .genre-menu a { padding: 8px 20px; color: #ddd; text-decoration: none; font-size: 13px; transition: 0.2s; display: block; white-space: nowrap; }
         .genre-menu a:hover { background: #e50914; color: white; }
-        /* Main */
         .main { margin-left: 80px; padding: 20px 40px; max-width: calc(100% - 80px); }
-        /* Hero Slider */
         .hero-slider { position: relative; margin-bottom: 40px; border-radius: 28px; overflow: hidden; box-shadow: 0 25px 40px -12px rgba(0,0,0,0.6); }
         .swiper { width: 100%; height: 600px; }
         .swiper-slide { position: relative; }
@@ -68,7 +42,6 @@
         .slider-search { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 500px; pointer-events: auto; }
         .slider-search input { width: 100%; padding: 14px 24px; border-radius: 60px; border: none; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); color: white; font-size: 16px; outline: none; text-align: center; border: 1px solid rgba(255,255,255,0.3); }
         .slider-search input:focus { background: rgba(0,0,0,0.8); border-color: #e50914; }
-        /* Sections */
         .section-header { display: flex; justify-content: space-between; align-items: baseline; margin: 40px 0 20px; flex-wrap: wrap; }
         .section-title { font-size: 24px; font-weight: 700; border-left: 4px solid #e50914; padding-left: 15px; }
         .pagination-controls { display: flex; justify-content: center; gap: 10px; margin: 0 0 30px 0; flex-wrap: wrap; }
@@ -116,39 +89,16 @@
         .provider-genres { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0; }
         .provider-genre-btn { background: #1e2026; border: none; padding: 6px 16px; border-radius: 30px; color: #ccc; cursor: pointer; font-size: 13px; }
         .provider-genre-btn.active, .provider-genre-btn:hover { background: #e50914; color: white; }
-        /* Mobile */
         @media (max-width: 768px) {
-            .sidebar {
-                position: fixed; bottom: 0; top: auto; left: 0; width: 100%;
-                height: auto; min-height: 65px; flex-direction: row;
-                justify-content: flex-start; align-items: center;
-                overflow-x: auto; overflow-y: hidden; white-space: nowrap;
-                gap: 15px; padding: 8px 16px;
-                background: rgba(10,10,15,0.98);
-                border-right: none; border-top: 1px solid rgba(255,255,255,0.08);
-                z-index: 200;
-                scrollbar-width: thin;
-                scrollbar-color: #e50914 #1e2026;
-            }
+            .sidebar { position: fixed; bottom: 0; top: auto; left: 0; width: 100%; height: auto; min-height: 65px; flex-direction: row; justify-content: flex-start; align-items: center; overflow-x: auto; overflow-y: hidden; white-space: nowrap; gap: 15px; padding: 8px 16px; background: rgba(10,10,15,0.98); border-right: none; border-top: 1px solid rgba(255,255,255,0.08); z-index: 200; scrollbar-width: thin; scrollbar-color: #e50914 #1e2026; }
             .sidebar::-webkit-scrollbar { height: 3px; }
             .sidebar::-webkit-scrollbar-thumb { background: #e50914; border-radius: 10px; }
-            .sidebar::after {
-                content: '';
-                position: sticky; right: 0; top: 0;
-                height: 100%; width: 30px;
-                background: linear-gradient(90deg, transparent, rgba(10,10,15,0.95));
-                pointer-events: none; z-index: 201;
-            }
+            .sidebar::after { content: ''; position: sticky; right: 0; top: 0; height: 100%; width: 30px; background: linear-gradient(90deg, transparent, rgba(10,10,15,0.95)); pointer-events: none; z-index: 201; }
             .sidebar-top, .sidebar-bottom { flex-direction: row; gap: 20px; margin: 0; }
             .sidebar a, .sidebar .genre-dropdown { flex-direction: column; flex-shrink: 0; width: auto; }
             .sidebar a span, .sidebar .genre-dropdown span { display: none; }
             .sidebar a i, .sidebar .genre-dropdown i, .sidebar .provider-icon { font-size: 22px; }
-            .genre-dropdown .genre-menu {
-                position: fixed; left: 50%; top: 50%;
-                transform: translate(-50%, -50%);
-                width: 200px; max-height: 70vh; overflow-y: auto;
-                display: none; z-index: 10000;
-            }
+            .genre-dropdown .genre-menu { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 200px; max-height: 70vh; overflow-y: auto; display: none; z-index: 10000; }
             .genre-dropdown:hover .genre-menu { display: flex; }
             .main { margin-left: 0; padding: 15px 12px; max-width: 100%; margin-bottom: 70px; }
             .swiper { height: 400px; }
@@ -170,9 +120,7 @@
             .page-btn { padding: 6px 12px; font-size: 12px; }
             .provider-search input { width: 90%; }
         }
-        @media (max-width: 480px) {
-            .movies-grid, .tv-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
-        }
+        @media (max-width: 480px) { .movies-grid, .tv-grid { grid-template-columns: repeat(2,1fr); gap: 10px; } }
     </style>
 </head>
 <body>
@@ -209,22 +157,16 @@
         <div class="slider-static-content">
             <h1><i class="fas fa-film"></i> AlbFilms24</h1>
         </div>
-        <div class="slider-search">
-            <input type="text" id="searchInputSlider" placeholder="Search movies, series...">
-        </div>
+        <div class="slider-search"><input type="text" id="searchInputSlider" placeholder="Search movies, series..."></div>
     </div>
 
-    <div id="searchResultsContainer" style="display:none;">
-        <div class="section-header"><h2 class="section-title"><i class="fas fa-search"></i> Search Results</h2></div>
-        <div class="movies-grid" id="searchGrid"></div>
-    </div>
-
+    <div id="searchResultsContainer" style="display:none;"><div class="section-header"><h2 class="section-title"><i class="fas fa-search"></i> Search Results</h2></div><div class="movies-grid" id="searchGrid"></div></div>
     <div id="favoritesSection" class="favorites-section"><div class="back-to-home" id="backToHomeBtnFav"><i class="fas fa-arrow-left"></i> Back to Home</div><div class="section-header"><h2 class="section-title"><i class="fas fa-heart"></i> Your Favorites</h2></div><div class="movies-grid" id="favoritesGrid"></div></div>
     <div id="watchlistSection" class="watchlist-section"><div class="back-to-home" id="backToHomeBtnWatch"><i class="fas fa-arrow-left"></i> Back to Home</div><div class="section-header"><h2 class="section-title"><i class="fas fa-clock"></i> Watch Later</h2></div><div class="movies-grid" id="watchlistGrid"></div></div>
     <div id="providerSection" class="provider-section"><div class="back-to-home" id="backFromProviderBtn"><i class="fas fa-arrow-left"></i> Back to Home</div><div class="section-header"><h2 class="section-title" id="providerTitle"></h2></div><div class="provider-tabs"><button class="provider-tab active" data-type="movie">Movies</button><button class="provider-tab" data-type="tv">TV Series</button></div><div class="provider-search"><input type="text" id="providerSearch" placeholder="Search..."></div><div class="provider-genres" id="providerGenres"></div><div class="movies-grid" id="providerGrid"></div><div class="pagination-controls" id="providerPagination"></div></div>
 
     <div id="mainContent">
-        <!-- shtesë rreshtat e rinj -->
+        <!-- Rreshtat kryesorë -->
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-chart-line"></i> Top Rated 100</h2><div class="pagination-controls" id="topRatedPagination"></div></div><div class="movies-grid" id="topRatedGrid"></div></div>
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-fire"></i> Trending Now</h2><div class="pagination-controls" id="trendingPagination"></div></div><div class="movies-grid" id="trendingGrid"></div></div>
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-trophy"></i> Greatest of All Time</h2><div class="pagination-controls" id="goatPagination"></div></div><div class="movies-grid" id="goatGrid"></div></div>
@@ -246,10 +188,11 @@
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-hat-cowboy"></i> Western</h2><div class="pagination-controls" id="westernPagination"></div></div><div class="movies-grid" id="westernGrid"></div></div>
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-music"></i> Music</h2><div class="pagination-controls" id="musicPagination"></div></div><div class="movies-grid" id="musicGrid"></div></div>
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-landmark"></i> History</h2><div class="pagination-controls" id="historyPagination"></div></div><div class="movies-grid" id="historyGrid"></div></div>
-        <!-- Featured TV Series -->
+        <!-- TV Series -->
         <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-crown"></i> Featured TV Series</h2><div class="pagination-controls" id="tvPagination"></div></div><div class="tv-grid" id="tvSeriesGrid"></div></div>
+        <!-- Greatest TV Series of All Time -->
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-star-of-life"></i> 100 Greatest TV Series of All Time</h2><div class="pagination-controls" id="greatestTvPagination"></div></div><div class="tv-grid" id="greatestTvGrid"></div></div>
     </div>
-
     <footer class="footer">...</footer>
 </div>
 
@@ -309,22 +252,24 @@
     async function loadProviderContent() { if(!currentProviderId)return; const grid=document.getElementById('providerGrid'); const pag=document.getElementById('providerPagination'); grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;">Loading...</div>'; let url=''; const endpoint=currentProviderType==='movie'?'movie':'tv'; if(currentProviderSearch && currentProviderSearch.length>=3){ url=`${BASE}/search/${endpoint}?api_key=${API_KEY}&query=${encodeURIComponent(currentProviderSearch)}&language=en-US&page=${currentProviderPage}`; } else { let genreParam=currentProviderGenre?`&with_genres=${currentProviderGenre}`:''; url=`${BASE}/discover/${endpoint}?api_key=${API_KEY}&with_watch_providers=${currentProviderId}&watch_region=US&sort_by=popularity.desc${genreParam}&language=en-US&page=${currentProviderPage}`; } try{ const res=await fetch(url); const data=await res.json(); const totalPages=Math.min(data.total_pages,10); grid.innerHTML=''; data.results.forEach(item=>createCard(item,currentProviderType==='tv','providerGrid')); pag.innerHTML=''; for(let i=1;i<=totalPages;i++){const btn=document.createElement('button'); btn.textContent=i; btn.className=`page-btn ${i===currentProviderPage?'active':''}`; btn.onclick=()=>{currentProviderPage=i;loadProviderContent();}; pag.appendChild(btn);} if(data.results.length===0)grid.innerHTML='<div style="grid-column:1/-1;text-align:center;">No results found.</div>'; } catch(e){console.error(e); grid.innerHTML='<div>Error loading content</div>';} }
     function showProvider(providerName,providerId){ document.getElementById('mainContent').style.display='none'; document.getElementById('favoritesSection').classList.remove('active'); document.getElementById('watchlistSection').classList.remove('active'); document.getElementById('searchResultsContainer').style.display='none'; const provSec=document.getElementById('providerSection'); provSec.style.display='block'; document.getElementById('providerTitle').innerHTML=`<i class="fab fa-${providerName.toLowerCase()}"></i> ${providerName}`; currentProviderId=providerId; currentProviderType='movie'; currentProviderPage=1; currentProviderSearch=''; currentProviderGenre=''; document.getElementById('providerSearch').value=''; document.querySelectorAll('.provider-tab').forEach(tab=>{if(tab.dataset.type==='movie')tab.classList.add('active'); else tab.classList.remove('active');}); renderProviderGenres(); loadProviderContent(); }
 
-    // ============ FUNKSIONET PËR RRESHTAT E NDRYSHËM ============
+    // ============ Rreshtat e filmave ============
     async function loadMovieList(endpoint, gridId, paginationId, page = 1, limit = 20) {
         const grid = document.getElementById(gridId);
         const pagContainer = document.getElementById(paginationId);
         if (!grid) return;
         grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">Loading...</div>';
         try {
-            let url = `${BASE}${endpoint}?api_key=${API_KEY}&language=en-US&page=${page}`;
-            if (endpoint.includes('primary_release_year')) {
-                // already complete
-            } else if (endpoint === '/movie/top_rated' && gridId === 'goatGrid') {
+            let url = '';
+            if (gridId === 'goatGrid') {
                 url = `${BASE}/movie/top_rated?api_key=${API_KEY}&language=en-US&page=${page}&vote_count.gte=1000`;
             } else if (gridId === 'topRatedGrid') {
                 url = `${BASE}/movie/top_rated?api_key=${API_KEY}&language=en-US&page=${page}`;
             } else if (gridId === 'trendingGrid') {
                 url = `${BASE}/trending/movie/day?api_key=${API_KEY}&language=en-US&page=${page}`;
+            } else if (endpoint.includes('primary_release_date')) {
+                url = `${BASE}/discover/movie?api_key=${API_KEY}&language=en-US&${endpoint}&sort_by=vote_average.desc&vote_count.gte=500&page=${page}`;
+            } else {
+                url = `${BASE}${endpoint}?api_key=${API_KEY}&language=en-US&page=${page}`;
             }
             const res = await fetch(url);
             const data = await res.json();
@@ -341,16 +286,14 @@
             }
         } catch(e) { console.error(e); grid.innerHTML = '<div>Error</div>'; }
     }
-
-    // Rreshtat specifikë
     function loadTopRated() { loadMovieList('/movie/top_rated', 'topRatedGrid', 'topRatedPagination', 1, 20); }
     function loadTrending() { loadMovieList('/trending/movie/day', 'trendingGrid', 'trendingPagination', 1, 20); }
     function loadGreatestAllTime() { loadMovieList('/movie/top_rated', 'goatGrid', 'goatPagination', 1, 20); }
-    function loadGreatest2000() { loadMovieList('/discover/movie?primary_release_year=2000&sort_by=vote_average.desc&vote_count.gte=500', 'best2000Grid', 'best2000Pagination', 1, 20); }
-    function loadGreatest90() { loadMovieList('/discover/movie?primary_release_year=1990&sort_by=vote_average.desc&vote_count.gte=500', 'best90Grid', 'best90Pagination', 1, 20); }
-    function loadGreatest80() { loadMovieList('/discover/movie?primary_release_year=1980&sort_by=vote_average.desc&vote_count.gte=500', 'best80Grid', 'best80Pagination', 1, 20); }
+    function loadGreatest2000() { loadMovieList('primary_release_date.gte=2000-01-01&primary_release_date.lte=2009-12-31', 'best2000Grid', 'best2000Pagination', 1, 20); }
+    function loadGreatest90() { loadMovieList('primary_release_date.gte=1990-01-01&primary_release_date.lte=1999-12-31', 'best90Grid', 'best90Pagination', 1, 20); }
+    function loadGreatest80() { loadMovieList('primary_release_date.gte=1980-01-01&primary_release_date.lte=1989-12-31', 'best80Grid', 'best80Pagination', 1, 20); }
 
-    // Zhanret origjinale
+    // Zhanret e filmave
     async function loadGenreMovies(genreId, gridId, pagId, page = 1) {
         const grid = document.getElementById(gridId);
         const pagContainer = document.getElementById(pagId);
@@ -373,6 +316,7 @@
         } catch(e) { console.error(e); grid.innerHTML = '<div>Error</div>'; }
     }
 
+    // TV Series (Featured)
     const customTvIds = [1396,60573,1399,46530,1416,1402,4629,62074,48866,46298,44608,47061,20798,70646,456,72759,1405,1434,1398,1394,46285,94941,1488,1390,76479,44217,651,4614,1100,82856,76489,112733,2691,65338,1408,1397,1392,44130,172,1437,45625,2907,37854,46261,46742,600,217,556,73586,608,313,358,4600,76391,395,1420,1401,1477,1530,1406,1425,827,65782,46672,86834,505,1306,116,526,611,451,509,768,2236,225,620,90510,476,134,935,500,655,269,1871,244,622,670,690,713,714,715,716,717,718,719,720,721,722,723,724,334,164,21,438,459,839,840,841,842,843,844,845,846,847,848,849,850,851,852,853];
     async function loadTVShows(page = 1) {
         const grid = document.getElementById('tvSeriesGrid');
@@ -399,6 +343,29 @@
                 pagContainer.appendChild(btn);
             }
         } catch(e) { console.error(e); grid.innerHTML = '<div>Error loading series</div>'; }
+    }
+
+    // Greatest TV Series of All Time
+    async function loadGreatestTVSeries(page = 1) {
+        const grid = document.getElementById('greatestTvGrid');
+        const pagContainer = document.getElementById('greatestTvPagination');
+        if (!grid) return;
+        grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">Loading...</div>';
+        try {
+            const res = await fetch(`${BASE}/tv/top_rated?api_key=${API_KEY}&language=en-US&page=${page}&vote_count.gte=500`);
+            const data = await res.json();
+            const totalPages = Math.min(data.total_pages, 10);
+            grid.innerHTML = '';
+            data.results.forEach(show => createCard(show, true, 'greatestTvGrid'));
+            pagContainer.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                btn.className = `page-btn ${i === page ? 'active' : ''}`;
+                btn.onclick = () => loadGreatestTVSeries(i);
+                pagContainer.appendChild(btn);
+            }
+        } catch(e) { console.error(e); grid.innerHTML = '<div>Error</div>'; }
     }
 
     async function loadHeroSlider() {
@@ -550,7 +517,7 @@
     document.getElementById('providerSearch').addEventListener('input', (e) => { currentProviderSearch = e.target.value; if (currentProviderSearch.length >= 3 || currentProviderSearch.length === 0) { currentProviderPage = 1; loadProviderContent(); } });
     document.querySelectorAll('.provider-tab').forEach(tab => { tab.addEventListener('click', () => { document.querySelectorAll('.provider-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); currentProviderType = tab.dataset.type; currentProviderPage = 1; currentProviderSearch = ''; currentProviderGenre = ''; document.getElementById('providerSearch').value = ''; renderProviderGenres(); loadProviderContent(); }); });
 
-    // Inicializimi i të gjitha rreshtave
+    // Fillimi
     loadHeroSlider();
     loadTopRated();
     loadTrending();
@@ -561,6 +528,7 @@
     const genreSections = [ { id:28, grid:'actionGrid', pag:'actionPagination' }, { id:35, grid:'comedyGrid', pag:'comedyPagination' }, { id:18, grid:'dramaGrid', pag:'dramaPagination' }, { id:27, grid:'horrorGrid', pag:'horrorPagination' }, { id:10749, grid:'romanceGrid', pag:'romancePagination' }, { id:878, grid:'scifiGrid', pag:'scifiPagination' }, { id:99, grid:'docGrid', pag:'docPagination' }, { id:80, grid:'crimeGrid', pag:'crimePagination' }, { id:12, grid:'adventureGrid', pag:'adventurePagination' }, { id:14, grid:'fantasyGrid', pag:'fantasyPagination' }, { id:10752, grid:'warGrid', pag:'warPagination' }, { id:37, grid:'westernGrid', pag:'westernPagination' }, { id:10402, grid:'musicGrid', pag:'musicPagination' }, { id:36, grid:'historyGrid', pag:'historyPagination' } ];
     genreSections.forEach(g => loadGenreMovies(g.id, g.grid, g.pag, 1));
     loadTVShows(1);
+    loadGreatestTVSeries(1);
 })();
 </script>
 </body>
