@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
 import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// Zëvendëso me të dhënat e tua të projektit Firebase
+// Zëvendëso me të dhënat e tua
 const firebaseConfig = {
     apiKey: "AIzaSyDummyReplaceWithYourRealKey",
     authDomain: "albfilms24.firebaseapp.com",
