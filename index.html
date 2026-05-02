@@ -24,6 +24,7 @@
         <a href="tvshows.html" id="tvShowLink"><i class="fas fa-tv"></i><span>TV Shows</span></a>
         <a href="#" id="favoritesLink"><i class="fas fa-heart"></i><span>Favorites</span></a>
         <a href="#" id="watchlistLink"><i class="fas fa-clock"></i><span>Watch Later</span></a>
+        <a href="#" id="genresLink"><i class="fas fa-th-large"></i><span>Genres</span></a>
         <a href="#" id="netflixLink"><span class="provider-icon">N</span><span>Netflix</span></a>
         <a href="#" id="primeLink"><i class="fab fa-amazon"></i><span>Prime</span></a>
         <a href="#" id="disneyLink"><span class="provider-icon">D</span><span>Disney+</span></a>
@@ -31,6 +32,20 @@
     <div class="sidebar-bottom">
         <a href="#" id="userIconSidebar"><i class="fas fa-user-circle"></i><span>Login</span></a>
     </div>
+</div>
+
+<!-- Search input në sidebar (i ri) -->
+<div class="sidebar-search-container">
+    <input type="text" id="sidebarSearchInput" placeholder="Search movies, TV shows...">
+</div>
+
+<!-- Dritarja e zhanreve (Genres Window) -->
+<div id="genresWindow" class="genres-window">
+    <div class="genres-window-header">
+        <span>All Genres</span>
+        <button id="closeGenresWindowBtn" class="close-genres-btn">&times;</button>
+    </div>
+    <div class="genres-window-content" id="genresWindowContent"></div>
 </div>
 
 <div class="main">
@@ -44,6 +59,7 @@
         <div class="slider-static-content">
             <h1>ALBFILMS24.COM</h1>
         </div>
+        <!-- search slider i vjetër nuk e heqim, por sidebar search është funksional -->
         <div class="slider-search">
             <input type="text" id="searchInputSlider" placeholder="Search movies, series...">
         </div>
@@ -87,6 +103,28 @@
     </div>
 
     <div id="mainContent">
+        <!-- Seksioni i parë: 100 BEST MOVIES -->
+        <div class="genre-section" data-special="top_rated_movies">
+            <div class="section-header"><h2 class="section-title"><i class="fas fa-trophy"></i> 100 BEST MOVIES</h2></div>
+            <div class="movies-grid" id="topMoviesGrid"></div>
+            <div class="pagination-controls" id="topMoviesPagination"></div>
+        </div>
+
+        <!-- Seksioni: 100 GREATEST TV SHOWS (edhe pse kemi tvshows.html, e vendosim edhe këtu) -->
+        <div class="genre-section" data-special="top_rated_tv">
+            <div class="section-header"><h2 class="section-title"><i class="fas fa-trophy"></i> 100 GREATEST TV SHOWS</h2></div>
+            <div class="tv-grid" id="topTvGrid"></div>
+            <div class="pagination-controls" id="topTvPagination"></div>
+        </div>
+
+        <!-- Seksionet Best of Decades -->
+        <div class="genre-section" data-year="2020"><div class="section-header"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> BEST OF 2020</h2></div><div class="movies-grid" id="year2020Grid"></div><div class="pagination-controls" id="year2020Pagination"></div></div>
+        <div class="genre-section" data-year="2010"><div class="section-header"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> BEST OF 2010</h2></div><div class="movies-grid" id="year2010Grid"></div><div class="pagination-controls" id="year2010Pagination"></div></div>
+        <div class="genre-section" data-year="2000"><div class="section-header"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> BEST OF 2000</h2></div><div class="movies-grid" id="year2000Grid"></div><div class="pagination-controls" id="year2000Pagination"></div></div>
+        <div class="genre-section" data-year="1990"><div class="section-header"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> BEST OF 1990</h2></div><div class="movies-grid" id="year1990Grid"></div><div class="pagination-controls" id="year1990Pagination"></div></div>
+        <div class="genre-section" data-year="1980"><div class="section-header"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> BEST OF 1980</h2></div><div class="movies-grid" id="year1980Grid"></div><div class="pagination-controls" id="year1980Pagination"></div></div>
+
+        <!-- Zhanret e zakonshme (vijnë më poshtë) -->
         <div class="genre-section" data-genre-id="28" data-genre-name="Action"><div class="section-header"><h2 class="section-title"><i class="fas fa-bolt"></i> Action</h2></div><div class="movies-grid" id="actionGrid"></div><div class="pagination-controls" id="actionPagination"></div></div>
         <div class="genre-section" data-genre-id="35" data-genre-name="Comedy"><div class="section-header"><h2 class="section-title"><i class="fas fa-laugh"></i> Comedy</h2></div><div class="movies-grid" id="comedyGrid"></div><div class="pagination-controls" id="comedyPagination"></div></div>
         <div class="genre-section" data-genre-id="18" data-genre-name="Drama"><div class="section-header"><h2 class="section-title"><i class="fas fa-theater-masks"></i> Drama</h2></div><div class="movies-grid" id="dramaGrid"></div><div class="pagination-controls" id="dramaPagination"></div></div>
@@ -101,7 +139,6 @@
         <div class="genre-section" data-genre-id="37" data-genre-name="Western"><div class="section-header"><h2 class="section-title"><i class="fas fa-hat-cowboy"></i> Western</h2></div><div class="movies-grid" id="westernGrid"></div><div class="pagination-controls" id="westernPagination"></div></div>
         <div class="genre-section" data-genre-id="10402" data-genre-name="Music"><div class="section-header"><h2 class="section-title"><i class="fas fa-music"></i> Music</h2></div><div class="movies-grid" id="musicGrid"></div><div class="pagination-controls" id="musicPagination"></div></div>
         <div class="genre-section" data-genre-id="36" data-genre-name="History"><div class="section-header"><h2 class="section-title"><i class="fas fa-landmark"></i> History</h2></div><div class="movies-grid" id="historyGrid"></div><div class="pagination-controls" id="historyPagination"></div></div>
-        <div class="genre-section" id="tvSeriesGenre" data-genre-name="TV Series"><div class="section-header"><h2 class="section-title"><i class="fas fa-crown"></i> Featured TV Series</h2></div><div class="tv-grid" id="tvSeriesGrid"></div><div class="pagination-controls" id="tvPagination"></div></div>
     </div>
 
     <footer class="footer">
