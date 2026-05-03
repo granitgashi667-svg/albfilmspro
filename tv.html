@@ -3,40 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlbFilms24 - TV Series Details</title>
+    <title>AlbFilms24 - TV Series</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
         .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
         .nav-bar { display: flex; justify-content: flex-start; margin-bottom: 30px; }
-        .back-btn { background: rgba(30, 30, 40, 0.8); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.15); padding: 10px 24px; border-radius: 40px; color: white; cursor: pointer; font-weight: 500; transition: all 0.2s; display: inline-flex; align-items: center; gap: 10px; }
+        .back-btn { background: rgba(30,30,40,0.8); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.15); padding: 10px 24px; border-radius: 40px; color: white; cursor: pointer; font-weight: 500; transition: 0.2s; display: inline-flex; align-items: center; gap: 10px; }
         .back-btn:hover { background: #e50914; transform: translateX(-3px); }
-        .series-hero { display: flex; gap: 40px; flex-wrap: wrap; background: rgba(20,20,30,0.7); backdrop-filter: blur(12px); border-radius: 28px; padding: 30px; margin-bottom: 40px; border-left: 5px solid #e50914; }
-        .poster img { width: 260px; border-radius: 20px; box-shadow: 0 15px 25px -8px rgba(0,0,0,0.5); }
+        .series-hero { display: flex; gap: 30px; flex-wrap: wrap; background: rgba(20,20,30,0.7); backdrop-filter: blur(12px); border-radius: 28px; padding: 25px; margin-bottom: 30px; border-left: 5px solid #e50914; }
+        .poster img { width: 240px; border-radius: 20px; box-shadow: 0 15px 25px -8px rgba(0,0,0,0.5); }
         .details { flex: 1; }
-        .title { font-size: 40px; font-weight: 800; margin-bottom: 16px; background: linear-gradient(135deg, #fff, #e50914); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .meta { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 24px; font-size: 15px; }
-        .meta span { background: #1e2026; padding: 6px 16px; border-radius: 40px; display: inline-flex; align-items: center; gap: 6px; }
-        .overview { margin-bottom: 24px; line-height: 1.6; color: #ddd; font-size: 16px; }
-        .season-selector { display: flex; flex-wrap: wrap; gap: 12px; margin: 30px 0 20px; }
-        .season-btn { background: #1e2026; border: none; padding: 10px 24px; border-radius: 40px; color: #ccc; cursor: pointer; font-weight: 500; transition: 0.2s; }
+        .title { font-size: 36px; font-weight: 800; margin-bottom: 12px; background: linear-gradient(135deg, #fff, #e50914); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .meta { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; font-size: 14px; }
+        .meta span { background: #1e2026; padding: 5px 14px; border-radius: 40px; display: inline-flex; align-items: center; gap: 6px; }
+        .overview { margin-bottom: 20px; line-height: 1.5; color: #ddd; font-size: 15px; }
+        .season-selector { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 15px; }
+        .season-btn { background: #1e2026; border: none; padding: 8px 20px; border-radius: 40px; color: #ccc; cursor: pointer; transition: 0.2s; }
         .season-btn.active, .season-btn:hover { background: #e50914; color: white; }
-        .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin: 20px 0 40px; }
-        .episode-card { background: #1a1c24; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.05); }
+        .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; margin: 15px 0 30px; }
+        .episode-card { background: #1a1c24; border-radius: 14px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s; border: 1px solid rgba(255,255,255,0.05); }
         .episode-card:hover { background: #e50914; transform: scale(1.01); }
-        .episode-number { font-weight: 700; background: #0a0a0f; padding: 4px 12px; border-radius: 30px; font-size: 14px; }
-        .episode-title { flex: 1; margin-left: 15px; font-weight: 500; }
-        .player-wrapper { margin-top: 30px; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 35px -10px rgba(0,0,0,0.5); background: #000; }
+        .episode-number { font-weight: 700; background: #0a0a0f; padding: 4px 10px; border-radius: 30px; font-size: 13px; }
+        .episode-title { flex: 1; margin-left: 12px; font-weight: 500; font-size: 14px; }
+        .player-wrapper { margin-top: 20px; border-radius: 20px; overflow: hidden; background: #000; }
         iframe { width: 100%; aspect-ratio: 16 / 9; border: none; display: block; }
         @media (max-width: 700px) {
-            .poster img { width: 160px; }
-            .title { font-size: 28px; }
-            .series-hero { padding: 20px; gap: 20px; }
+            .poster img { width: 140px; }
+            .title { font-size: 24px; }
+            .series-hero { padding: 15px; gap: 15px; }
             .episodes-grid { grid-template-columns: 1fr; }
         }
     </style>
-    <!-- Popads -->
+    <!-- Popads (copy from above) -->
     <script type="text/javascript" data-cfasync="false">
 /*<![CDATA[/* */
 (function(){var q=window,f="cc878073e7a6ce2e44e76e4259a40690",m=[["siteId",312-918*765+84+5947022],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],e=["d3d3LnZpc2FyaW9tZWRpYS5jb20vbWh0bWxnbC5taW4uY3Nz","ZDEzazdwcmF4MXlpMDQuY2xvdWRmcm9udC5uZXQvWkZjeFl1L3lqcXVlcnkuc3RpY2t5TmF2YmFyLm1pbi5qcw=="],g=-1,p,s,z=function(){clearTimeout(s);g++;if(e[g]&&!(1803486699000<(new Date).getTime()&&1<g)){p=q.document.createElement("script");p.type="text/javascript";p.async=!0;var x=q.document.getElementsByTagName("script")[0];p.src="https://"+atob(e[g]);p.crossOrigin="anonymous";p.onerror=z;p.onload=function(){clearTimeout(s);q[f.slice(0,16)+f.slice(0,16)]||z()};s=setTimeout(z,5E3);x.parentNode.insertBefore(p,x)}};if(!q[f]){try{Object.freeze(q[f]=m)}catch(e){}z()}})();
@@ -63,12 +63,11 @@
     const API_KEY = '7a98db423d6e3a5ee922a3e51a09d135';
     const IMG = 'https://image.tmdb.org/t/p/w500';
     const BACKDROP = 'https://image.tmdb.org/t/p/original';
-
     let tvData = null;
     let currentSeason = 1;
 
     async function loadTVDetails() {
-        if (!tvId) { document.getElementById('info').innerHTML = '<div class="details">Invalid series ID.</div>'; return; }
+        if (!tvId) { document.getElementById('info').innerHTML = '<div>Invalid ID</div>'; return; }
         try {
             const res = await fetch(`https://api.themoviedb.org/3/tv/${tvId}?api_key=${API_KEY}&language=en-US`);
             tvData = await res.json();
@@ -85,14 +84,11 @@
                         <span><i class="fas fa-star"></i> ${tvData.vote_average?.toFixed(1)}/10</span>
                         <span><i class="fas fa-tv"></i> ${tvData.number_of_seasons} Seasons</span>
                     </div>
-                    <div class="overview">${tvData.overview || 'No description available.'}</div>
+                    <div class="overview">${tvData.overview || 'No description.'}</div>
                 </div>
             `;
             loadSeasons();
-        } catch (error) {
-            console.error(error);
-            document.getElementById('info').innerHTML = '<div class="details">Error loading series.</div>';
-        }
+        } catch(e) { console.error(e); document.getElementById('info').innerHTML = '<div>Error</div>'; }
     }
 
     function loadSeasons() {
@@ -114,58 +110,49 @@
             seasonsDiv.appendChild(btn);
         });
         if (seasons.length > 0) {
-            const firstSeason = seasons.find(s => s.season_number > 0)?.season_number || 1;
-            currentSeason = firstSeason;
+            const first = seasons.find(s => s.season_number > 0)?.season_number || 1;
+            currentSeason = first;
             loadEpisodes(currentSeason);
         }
     }
 
     async function loadEpisodes(seasonNum) {
-        const episodesDiv = document.getElementById('episodesContainer');
-        episodesDiv.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px;">Loading episodes...</div>';
+        const epsDiv = document.getElementById('episodesContainer');
+        epsDiv.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px;">Loading episodes...</div>';
         try {
             const res = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNum}?api_key=${API_KEY}&language=en-US`);
             const seasonData = await res.json();
             const episodes = seasonData.episodes || [];
-            episodesDiv.innerHTML = '';
+            epsDiv.innerHTML = '';
             episodes.forEach(ep => {
                 const card = document.createElement('div');
                 card.className = 'episode-card';
-                card.innerHTML = `<span class="episode-number">E${ep.episode_number}</span><span class="episode-title">${ep.name}</span><i class="fas fa-play-circle" style="font-size: 20px;"></i>`;
+                card.innerHTML = `<span class="episode-number">E${ep.episode_number}</span><span class="episode-title">${ep.name}</span><i class="fas fa-play-circle"></i>`;
                 card.onclick = () => playEpisode(seasonNum, ep.episode_number);
-                episodesDiv.appendChild(card);
+                epsDiv.appendChild(card);
             });
-        } catch(e) { console.error(e); episodesDiv.innerHTML = '<div style="grid-column:1/-1; text-align:center;">Failed to load episodes.</div>'; }
+        } catch(e) { console.error(e); epsDiv.innerHTML = '<div>Failed to load episodes</div>'; }
     }
 
     function playEpisode(seasonNum, episodeNum) {
         const playerContainer = document.getElementById('playerContainer');
         const player = document.getElementById('player');
-        const embedUrl = `https://vidsrcme.ru/embed/tv/${tvId}/${seasonNum}/${episodeNum}`;
-        player.src = embedUrl;
+        player.src = `https://vidsrcme.ru/embed/tv/${tvId}/${seasonNum}/${episodeNum}`;
         playerContainer.style.display = 'block';
         playerContainer.scrollIntoView({ behavior: 'smooth' });
-        // Regjistro në Continue Watching (përdor localStorage sepse nuk kemi modul të përbashkët)
+        // Continue watching
         let continueWatching = JSON.parse(localStorage.getItem('alb_continueWatching')) || [];
         const existing = continueWatching.find(c => c.id == tvId && c.type === 'tv');
         const item = { id: tvId, type: 'tv', title: tvData.name, poster: tvData.poster_path, timestamp: Date.now(), season: seasonNum, episode: episodeNum };
-        if (existing) {
-            existing.timestamp = Date.now();
-            existing.season = seasonNum;
-            existing.episode = episodeNum;
-        } else {
-            continueWatching.unshift(item);
-            if (continueWatching.length > 20) continueWatching.pop();
-        }
+        if (existing) { existing.timestamp = Date.now(); existing.season = seasonNum; existing.episode = episodeNum; }
+        else { continueWatching.unshift(item); if (continueWatching.length > 20) continueWatching.pop(); }
         localStorage.setItem('alb_continueWatching', JSON.stringify(continueWatching));
     }
 
-    window.addEventListener('load', () => {
-        loadTVDetails();
-        const scrollBtn = document.getElementById('scrollToTopBtn');
-        window.addEventListener('scroll', () => { scrollBtn.style.display = window.scrollY > 300 ? 'block' : 'none'; });
-        scrollBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    const scrollBtn = document.getElementById('scrollToTopBtn');
+    window.addEventListener('scroll', () => { scrollBtn.style.display = window.scrollY > 300 ? 'block' : 'none'; });
+    scrollBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    loadTVDetails();
 </script>
 </body>
 </html>
