@@ -44,19 +44,6 @@
     background: #e50914;
     color: white;
 }
-/* Për të parandaluar mbylljen kur kalon te dritarja */
-.genres-hover-window {
-    pointer-events: auto;
-}
-/* Rregullimi për mobile - në mobile klikohet */
-@media (max-width: 768px) {
-    .genres-hover-window {
-        left: auto;
-        right: 0;
-        top: 40px;
-        width: 280px;
-    }
-}
 
 /* Sidebar search */
 .sidebar-search-container {
@@ -80,22 +67,45 @@
 .sidebar-search-container input:focus {
     border-color: #e50914;
 }
+
+/* Rregullimi për mobile */
 @media (max-width: 768px) {
     .sidebar-search-container {
         left: 10px;
         top: 10px;
         width: calc(100% - 90px);
     }
-}
-
-/* Siguro që main të ketë margjinë për sidebar search */
-.main {
-    margin-left: 80px;
-    padding: 20px 40px;
-    max-width: calc(100% - 80px);
-}
-@media (max-width: 768px) {
+    .genres-hover-window {
+        left: auto;
+        right: 0;
+        top: 40px;
+        width: 280px;
+    }
     .main {
         margin-top: 60px;
+    }
+}
+
+.scroll-top-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #e50914;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    z-index: 99;
+    display: none;
+}
+@media (max-width: 768px) {
+    .scroll-top-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        bottom: 80px;
     }
 }
