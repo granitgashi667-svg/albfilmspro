@@ -7,79 +7,7 @@ body { background: #0a0a0f; color: #fff; font-family: 'Inter', sans-serif; }
 .sidebar a .provider-icon { font-weight: 700; font-family: 'Inter', sans-serif; font-style: normal; }
 .sidebar a span { font-size: 11px; }
 .sidebar a:hover, .sidebar a.active { color: #e50914; transform: translateY(-3px); }
-
-/* Genres Hover Window */
-.genres-hover-container { position: relative; display: inline-block; }
-.genres-hover-window {
-    position: absolute;
-    left: 70px;
-    top: 0;
-    width: 420px;
-    max-width: 80vw;
-    background: #1a1c22;
-    border-radius: 20px;
-    padding: 15px;
-    z-index: 1000;
-    display: none;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    border: 1px solid #e50914;
-    pointer-events: auto;
-}
-.genres-hover-container:hover .genres-hover-window {
-    display: block;
-}
-.genres-window-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    max-height: 400px;
-    overflow-y: auto;
-}
-.genre-window-btn {
-    background: #2a2c30;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 30px;
-    color: #ddd;
-    cursor: pointer;
-    transition: 0.2s;
-    font-size: 13px;
-}
-.genre-window-btn:hover {
-    background: #e50914;
-    color: white;
-}
-
-/* Sidebar search */
-.sidebar-search-container {
-    position: fixed;
-    left: 90px;
-    top: 20px;
-    z-index: 101;
-    width: 220px;
-}
-.sidebar-search-container input {
-    width: 100%;
-    padding: 8px 12px;
-    border-radius: 40px;
-    border: none;
-    background: #1e2026;
-    color: white;
-    font-size: 13px;
-    outline: none;
-    border: 1px solid #333;
-}
-.sidebar-search-container input:focus {
-    border-color: #e50914;
-}
-
 .main { margin-left: 80px; padding: 20px 40px; max-width: calc(100% - 80px); }
-@media (max-width: 768px) {
-    .sidebar-search-container { left: 10px; top: 10px; width: calc(100% - 90px); }
-    .genres-hover-window { left: auto; right: 0; top: 40px; width: 280px; }
-    .main { margin-left: 0; padding: 60px 15px 20px; max-width: 100%; margin-bottom: 70px; }
-}
-
 .hero-slider { position: relative; margin-bottom: 40px; border-radius: 28px; overflow: hidden; box-shadow: 0 25px 40px -12px rgba(0,0,0,0.6); }
 .swiper { width: 100%; height: 600px; }
 .swiper-slide { position: relative; }
@@ -152,7 +80,101 @@ body { background: #0a0a0f; color: #fff; font-family: 'Inter', sans-serif; }
 .scroll-top-btn { position: fixed; bottom: 30px; right: 30px; background: #e50914; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; color: white; cursor: pointer; z-index: 99; display: none; transition: 0.2s; }
 .scroll-top-btn:hover { background: #b81d24; transform: scale(1.05); }
 
-@media (max-width: 1400px){ .movies-grid, .tv-grid { grid-template-columns: repeat(6,1fr); } }
-@media (max-width: 1100px){ .movies-grid, .tv-grid { grid-template-columns: repeat(4,1fr); } }
-@media (max-width: 768px){ .movies-grid, .tv-grid { grid-template-columns: repeat(3,1fr); gap: 12px; } .scroll-top-btn { width: 40px; height: 40px; font-size: 20px; bottom: 80px; } }
-@media (max-width: 480px){ .movies-grid, .tv-grid { grid-template-columns: repeat(2,1fr); gap: 10px; } }
+/* Shtesat e reja për sidebar search dhe genres hover */
+.sidebar-search-container {
+    position: fixed;
+    left: 90px;
+    top: 20px;
+    z-index: 101;
+    width: 220px;
+}
+.sidebar-search-container input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 40px;
+    border: none;
+    background: #1e2026;
+    color: white;
+    font-size: 13px;
+    outline: none;
+    border: 1px solid #333;
+}
+.sidebar-search-container input:focus {
+    border-color: #e50914;
+}
+.genres-hover-container {
+    position: relative;
+    display: inline-block;
+}
+.genres-hover-window {
+    position: absolute;
+    left: 70px;
+    top: 0;
+    width: 420px;
+    max-width: 80vw;
+    background: #1a1c22;
+    border-radius: 20px;
+    padding: 15px;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    border: 1px solid #e50914;
+    pointer-events: auto;
+}
+.genres-hover-container:hover .genres-hover-window {
+    display: block;
+}
+.genres-window-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+.genre-window-btn {
+    background: #2a2c30;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 30px;
+    color: #ddd;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 13px;
+}
+.genre-window-btn:hover {
+    background: #e50914;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .sidebar { position: fixed; bottom: 0; top: auto; left: 0; width: 100%; height: auto; min-height: 65px; flex-direction: row; justify-content: flex-start; align-items: center; overflow-x: auto; overflow-y: hidden; white-space: nowrap; gap: 20px; padding: 8px 16px; background: rgba(10,10,15,0.98); border-right: none; border-top: 1px solid rgba(255,255,255,0.08); z-index: 200; }
+    .sidebar-top, .sidebar-bottom { flex-direction: row; gap: 20px; margin: 0; }
+    .sidebar a { flex-direction: column; flex-shrink: 0; width: auto; }
+    .sidebar a span { display: none; }
+    .sidebar a i, .sidebar a .provider-icon { font-size: 22px; }
+    .sidebar-search-container { left: 10px; top: 10px; width: calc(100% - 90px); }
+    .main { margin-left: 0; padding: 15px 12px; max-width: 100%; margin-bottom: 70px; margin-top: 60px; }
+    .swiper { height: 400px; }
+    .slide-description-card { left: 15px; bottom: 20px; max-width: calc(100% - 30px); padding: 16px; }
+    .slide-description-card h2 { font-size: 24px; }
+    .slide-meta { gap: 12px; font-size: 11px; flex-wrap: wrap; }
+    .slide-description-card p { font-size: 12px; }
+    .slide-cast { font-size: 10px; }
+    .btn-watch { padding: 8px 20px; font-size: 14px; }
+    .slider-static-content h1 { font-size: 20px; }
+    .slider-search { width: 90%; }
+    .slider-search input { padding: 10px 16px; font-size: 14px; }
+    .section-title { font-size: 20px; }
+    .movies-grid, .tv-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .card-info h4 { font-size: 12px; }
+    .card-info p { font-size: 10px; }
+    .preview-rich { display: none; }
+    .footer-content { grid-template-columns: 1fr; text-align: center; }
+    .page-btn { padding: 6px 12px; font-size: 12px; }
+    .provider-search input { width: 90%; }
+    .scroll-top-btn { width: 40px; height: 40px; font-size: 20px; bottom: 80px; }
+    .genres-hover-window { left: auto; right: 0; top: 40px; width: 280px; }
+}
+@media (max-width: 480px) {
+    .movies-grid, .tv-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+}
