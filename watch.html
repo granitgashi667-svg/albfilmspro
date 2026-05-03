@@ -8,42 +8,169 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
-        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
-        .nav-bar { margin-bottom: 20px; }
-        .back-btn { background: rgba(30,30,40,0.8); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.15); padding: 10px 24px; border-radius: 40px; color: white; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; }
-        .back-btn:hover { background: #e50914; transform: translateX(-3px); }
-        .servers { display: flex; justify-content: center; gap: 12px; margin: 15px 0; flex-wrap: wrap; }
-        .server-btn { background: #1e2026; border: none; padding: 8px 20px; border-radius: 40px; color: #ccc; cursor: pointer; font-weight: 600; }
-        .server-btn.active, .server-btn:hover { background: #e50914; color: white; }
-        .movie-hero { display: flex; gap: 30px; flex-wrap: wrap; background: rgba(20,20,30,0.7); backdrop-filter: blur(12px); border-radius: 28px; padding: 25px; margin-bottom: 25px; border-left: 5px solid #e50914; }
-        .poster img { width: 220px; border-radius: 20px; }
-        .details { flex: 1; }
-        .title { font-size: 32px; font-weight: 800; margin-bottom: 12px; background: linear-gradient(135deg, #fff, #e50914); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .meta { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; font-size: 14px; }
-        .meta span { background: #1e2026; padding: 5px 14px; border-radius: 40px; display: inline-flex; align-items: center; gap: 6px; }
-        .overview { margin-bottom: 20px; line-height: 1.5; color: #ddd; font-size: 15px; }
-        .cast { color: #aaa; font-size: 14px; }
-        .player-wrapper { border-radius: 20px; overflow: hidden; background: #000; margin-top: 10px; }
-        iframe { width: 100%; aspect-ratio: 16 / 9; border: none; }
-        .points-action { text-align: center; margin-top: 25px; }
-        .earn-points-btn { background: linear-gradient(135deg, #e50914, #b81d24); border: none; padding: 10px 24px; border-radius: 60px; color: white; font-weight: 700; cursor: pointer; }
+        body {
+            background: #0a0a0f;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: -1;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        .nav-bar {
+            margin-bottom: 30px;
+        }
+        .back-btn {
+            background: rgba(30,30,40,0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 10px 24px;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .back-btn:hover {
+            background: #e50914;
+            transform: translateX(-3px);
+        }
+        .servers {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .server-btn {
+            background: #1e2026;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            color: #ccc;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .server-btn.active, .server-btn:hover {
+            background: #e50914;
+            color: white;
+        }
+        .movie-hero {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            background: rgba(20,20,30,0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 5px solid #e50914;
+        }
+        .poster img {
+            width: 300px;
+            border-radius: 20px;
+            box-shadow: 0 15px 25px -8px rgba(0,0,0,0.5);
+        }
+        .details {
+            flex: 1;
+        }
+        .title {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff, #e50914);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+        .meta span {
+            background: #1e2026;
+            padding: 6px 16px;
+            border-radius: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .overview {
+            margin-bottom: 24px;
+            line-height: 1.6;
+            color: #ddd;
+            font-size: 16px;
+        }
+        .cast {
+            color: #aaa;
+            font-size: 14px;
+        }
+        .cast strong {
+            color: #e50914;
+        }
+        .player-wrapper {
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.5);
+            background: #000;
+            margin-top: 10px;
+        }
+        iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+            display: block;
+        }
+        .points-action {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .earn-points-btn {
+            background: linear-gradient(135deg, #e50914, #b81d24);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 60px;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .earn-points-btn:hover {
+            transform: scale(1.02);
+        }
         @media (max-width: 700px) {
-            .poster img { width: 140px; }
-            .title { font-size: 24px; }
-            .movie-hero { padding: 15px; gap: 15px; }
+            .poster img { width: 200px; }
+            .title { font-size: 28px; }
+            .movie-hero { padding: 20px; gap: 20px; }
+            .server-btn { padding: 8px 16px; font-size: 12px; }
         }
     </style>
-    <!-- Popads -->
-    <script type="text/javascript" data-cfasync="false">
-/*<![CDATA[/* */
-(function(){var q=window,f="cc878073e7a6ce2e44e76e4259a40690",m=[["siteId",312-918*765+84+5947022],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],e=["d3d3LnZpc2FyaW9tZWRpYS5jb20vbWh0bWxnbC5taW4uY3Nz","ZDEzazdwcmF4MXlpMDQuY2xvdWRmcm9udC5uZXQvWkZjeFl1L3lqcXVlcnkuc3RpY2t5TmF2YmFyLm1pbi5qcw=="],g=-1,p,s,z=function(){clearTimeout(s);g++;if(e[g]&&!(1803486699000<(new Date).getTime()&&1<g)){p=q.document.createElement("script");p.type="text/javascript";p.async=!0;var x=q.document.getElementsByTagName("script")[0];p.src="https://"+atob(e[g]);p.crossOrigin="anonymous";p.onerror=z;p.onload=function(){clearTimeout(s);q[f.slice(0,16)+f.slice(0,16)]||z()};s=setTimeout(z,5E3);x.parentNode.insertBefore(p,x)}};if(!q[f]){try{Object.freeze(q[f]=m)}catch(e){}z()}})();
-/*]]>/* */
-</script>
 </head>
 <body>
 <div class="container">
     <div class="nav-bar">
-        <button class="back-btn" onclick="history.back()"><i class="fas fa-arrow-left"></i> Back</button>
+        <button class="back-btn" onclick="history.back()"><i class="fas fa-arrow-left"></i> Back to Home</button>
     </div>
     <div id="info" class="movie-hero"></div>
     <div class="servers" id="serverList"></div>
@@ -54,72 +181,113 @@
         <button id="earnPointsBtn" class="earn-points-btn"><i class="fas fa-coins"></i> I watched it - Earn 10 Points!</button>
     </div>
 </div>
-<button id="scrollToTopBtn" class="scroll-top-btn"><i class="fas fa-arrow-up"></i></button>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    const firebaseConfig = { apiKey: "AIzaSyDummyReplaceWithYourRealKey", authDomain: "albfilms24.firebaseapp.com", projectId: "albfilms24", storageBucket: "albfilms24.appspot.com", messagingSenderId: "123456789", appId: "1:123456789:web:abc123" };
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+<script>
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
     const type = urlParams.get('type') || 'movie';
     const API_KEY = '7a98db423d6e3a5ee922a3e51a09d135';
-    const IMG = 'https://image.tmdb.org/t/p/w500';
-    const BACKDROP = 'https://image.tmdb.org/t/p/original';
+    const IMG_URL = 'https://image.tmdb.org/t/p/w500';
+    const BACKDROP_URL = 'https://image.tmdb.org/t/p/original';
     let currentServer = 'vidsrc';
+    
     const servers = {
-        vidsrc: { name: 'Server 1', getUrl: (id, type) => type === 'movie' ? `https://vidsrcme.ru/embed/movie/${id}` : `https://vidsrcme.ru/embed/tv/${id}/1/1` },
-        multiembed: { name: 'Server 2', getUrl: (id, type) => type === 'movie' ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&tv=1` },
-        embed2: { name: 'Server 3', getUrl: (id, type) => type === 'movie' ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&season=1&episode=1` }
+        vidsrc: {
+            name: 'Server 1',
+            getUrl: (id, type) => type === 'movie' ? `https://vidsrcme.ru/embed/movie/${id}` : `https://vidsrcme.ru/embed/tv/${id}/1/1`
+        },
+        multiembed: {
+            name: 'Server 2 (AirPlay)',
+            getUrl: (id, type) => type === 'movie' ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&tv=1`
+        },
+        embed2: {
+            name: 'Server 3',
+            getUrl: (id, type) => type === 'movie' ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&season=1&episode=1`
+        }
     };
-    function loadVideo() { const s = servers[currentServer]; if(s && id) document.getElementById('player').src = s.getUrl(id, type); }
+    
+    function loadVideo() {
+        const server = servers[currentServer];
+        if (server && id) {
+            const embedUrl = server.getUrl(id, type);
+            document.getElementById('player').src = embedUrl;
+        }
+    }
+    
     async function loadMovieDetails() {
-        if(!id) return;
+        if (!id) return;
         try {
-            const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=en-US&append_to_response=credits`);
-            const data = await res.json();
+            const response = await fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=en-US&append_to_response=credits`);
+            const data = await response.json();
             const title = data.title || data.name;
             const year = (data.release_date || data.first_air_date || '').split('-')[0] || 'N/A';
             const rating = data.vote_average?.toFixed(1) || 'N/A';
             const runtime = data.runtime ? `${data.runtime} min` : (data.number_of_episodes ? `${data.number_of_episodes} eps` : 'N/A');
-            const cast = data.credits?.cast?.slice(0,5).map(c=>c.name).join(', ') || 'N/A';
-            const poster = data.poster_path ? IMG + data.poster_path : '';
-            const overview = data.overview || 'No description.';
-            const backdrop = data.backdrop_path ? BACKDROP + data.backdrop_path : '';
-            if(backdrop) document.body.style.backgroundImage = `url('${backdrop}')`;
-            document.body.style.backgroundSize = 'cover';
-            document.body.style.backgroundAttachment = 'fixed';
-            document.getElementById('info').innerHTML = `<div class="poster"><img src="${poster}" alt="${title}"></div><div class="details"><div class="title">${title}</div><div class="meta"><span><i class="fas fa-calendar-alt"></i> ${year}</span><span><i class="fas fa-star"></i> ${rating}/10</span><span><i class="fas fa-clock"></i> ${runtime}</span></div><div class="overview">${overview}</div><div class="cast"><i class="fas fa-users"></i> <strong>Cast:</strong> ${cast}</div></div>`;
+            const cast = data.credits?.cast?.slice(0, 5).map(c => c.name).join(', ') || 'Information not available';
+            const poster = data.poster_path ? IMG_URL + data.poster_path : '';
+            const overview = data.overview || 'No description available.';
+            const backdrop = data.backdrop_path ? BACKDROP_URL + data.backdrop_path : '';
+            if (backdrop) document.body.style.backgroundImage = `url('${backdrop}')`;
+            
+            document.getElementById('info').innerHTML = `
+                <div class="poster"><img src="${poster}" alt="${title}"></div>
+                <div class="details">
+                    <div class="title">${title}</div>
+                    <div class="meta">
+                        <span><i class="fas fa-calendar-alt"></i> ${year}</span>
+                        <span><i class="fas fa-star"></i> ${rating}/10</span>
+                        <span><i class="fas fa-clock"></i> ${runtime}</span>
+                    </div>
+                    <div class="overview">${overview}</div>
+                    <div class="cast"><i class="fas fa-users"></i> <strong>Cast:</strong> ${cast}</div>
+                </div>
+            `;
+            
             const serverContainer = document.getElementById('serverList');
             serverContainer.innerHTML = '';
             Object.keys(servers).forEach(key => {
                 const btn = document.createElement('button');
                 btn.textContent = servers[key].name;
                 btn.className = `server-btn ${key === currentServer ? 'active' : ''}`;
-                btn.onclick = () => { currentServer = key; document.querySelectorAll('.server-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); loadVideo(); };
+                btn.onclick = () => {
+                    currentServer = key;
+                    document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    loadVideo();
+                };
                 serverContainer.appendChild(btn);
             });
             loadVideo();
+            
+            // Add to continue watching
             let continueWatching = JSON.parse(localStorage.getItem('alb_continueWatching')) || [];
             const existing = continueWatching.find(c => c.id == id && c.type === type);
-            const item = { id, type, title, poster: data.poster_path, timestamp: Date.now() };
-            if(existing) existing.timestamp = Date.now();
-            else { continueWatching.unshift(item); if(continueWatching.length > 20) continueWatching.pop(); }
+            const item = {
+                id: id,
+                type: type,
+                title: title,
+                poster: data.poster_path,
+                timestamp: Date.now()
+            };
+            if (existing) {
+                existing.timestamp = Date.now();
+            } else {
+                continueWatching.unshift(item);
+                if (continueWatching.length > 20) continueWatching.pop();
+            }
             localStorage.setItem('alb_continueWatching', JSON.stringify(continueWatching));
-        } catch(e) { console.error(e); document.getElementById('info').innerHTML = '<div>Error loading details</div>'; }
+            
+        } catch (error) {
+            console.error('Error loading movie details:', error);
+            document.getElementById('info').innerHTML = '<div class="details">Error loading movie details. Please try again later.</div>';
+        }
     }
-    document.getElementById('earnPointsBtn').addEventListener('click', async () => {
-        const user = auth.currentUser;
-        if(!user) { alert('Please login first'); return; }
-        try { await updateDoc(doc(db, 'users', user.uid), { points: increment(10) }); alert('+10 points!'); document.getElementById('earnPointsBtn').disabled = true; } catch(e) { alert('Error'); }
+    
+    // Points functionality (simplified)
+    document.getElementById('earnPointsBtn').addEventListener('click', () => {
+        alert('Points feature coming soon!');
     });
-    const scrollBtn = document.getElementById('scrollToTopBtn');
-    window.addEventListener('scroll', () => { scrollBtn.style.display = window.scrollY > 300 ? 'block' : 'none'; });
-    scrollBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    
     loadMovieDetails();
 </script>
 </body>
