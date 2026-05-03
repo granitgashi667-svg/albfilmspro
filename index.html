@@ -21,10 +21,11 @@
     <div class="sidebar-top">
         <a href="#" id="homeLink"><i class="fas fa-home"></i><span>Home</span></a>
         <a href="#" id="moviesLink"><i class="fas fa-film"></i><span>Movies</span></a>
-        <a href="tvshows.html"><i class="fas fa-tv"></i><span>TV Shows</span></a>
+        <a href="tvshows.html" id="tvShowLink"><i class="fas fa-tv"></i><span>TV Shows</span></a>
         <a href="#" id="favoritesLink"><i class="fas fa-heart"></i><span>Favorites</span></a>
         <a href="#" id="watchlistLink"><i class="fas fa-clock"></i><span>Watch Later</span></a>
-        <div class="genres-hover-container" id="genresHoverContainer">
+        <!-- Genres me hover -->
+        <div class="genres-hover-container">
             <a href="#" id="genresLink"><i class="fas fa-th-large"></i><span>Genres</span></a>
             <div class="genres-hover-window" id="genresHoverWindow">
                 <div class="genres-window-content" id="genresWindowContent"></div>
@@ -39,7 +40,7 @@
     </div>
 </div>
 
-<!-- Sidebar Search (i ri) -->
+<!-- Sidebar Search -->
 <div class="sidebar-search-container">
     <input type="text" id="sidebarSearchInput" placeholder="Search movies, TV shows...">
 </div>
@@ -98,51 +99,48 @@
     </div>
 
     <div id="mainContent">
-        <!-- Zhanret e zakonshme -->
-        <div class="genre-section" data-genre-id="28"><div class="section-header"><h2 class="section-title"><i class="fas fa-bolt"></i> Action</h2></div><div class="movies-grid" id="actionGrid"></div><div class="pagination-controls" id="actionPagination"></div></div>
-        <div class="genre-section" data-genre-id="35"><div class="section-header"><h2 class="section-title"><i class="fas fa-laugh"></i> Comedy</h2></div><div class="movies-grid" id="comedyGrid"></div><div class="pagination-controls" id="comedyPagination"></div></div>
-        <div class="genre-section" data-genre-id="18"><div class="section-header"><h2 class="section-title"><i class="fas fa-theater-masks"></i> Drama</h2></div><div class="movies-grid" id="dramaGrid"></div><div class="pagination-controls" id="dramaPagination"></div></div>
-        <div class="genre-section" data-genre-id="27"><div class="section-header"><h2 class="section-title"><i class="fas fa-skull"></i> Horror</h2></div><div class="movies-grid" id="horrorGrid"></div><div class="pagination-controls" id="horrorPagination"></div></div>
-        <div class="genre-section" data-genre-id="10749"><div class="section-header"><h2 class="section-title"><i class="fas fa-heart"></i> Romance</h2></div><div class="movies-grid" id="romanceGrid"></div><div class="pagination-controls" id="romancePagination"></div></div>
-        <div class="genre-section" data-genre-id="878"><div class="section-header"><h2 class="section-title"><i class="fas fa-rocket"></i> Sci-Fi</h2></div><div class="movies-grid" id="scifiGrid"></div><div class="pagination-controls" id="scifiPagination"></div></div>
-        <div class="genre-section" data-genre-id="99"><div class="section-header"><h2 class="section-title"><i class="fas fa-globe"></i> Documentary</h2></div><div class="movies-grid" id="docGrid"></div><div class="pagination-controls" id="docPagination"></div></div>
-        <div class="genre-section" data-genre-id="80"><div class="section-header"><h2 class="section-title"><i class="fas fa-gavel"></i> Crime</h2></div><div class="movies-grid" id="crimeGrid"></div><div class="pagination-controls" id="crimePagination"></div></div>
-        <div class="genre-section" data-genre-id="12"><div class="section-header"><h2 class="section-title"><i class="fas fa-map-marked-alt"></i> Adventure</h2></div><div class="movies-grid" id="adventureGrid"></div><div class="pagination-controls" id="adventurePagination"></div></div>
-        <div class="genre-section" data-genre-id="14"><div class="section-header"><h2 class="section-title"><i class="fas fa-dragon"></i> Fantasy</h2></div><div class="movies-grid" id="fantasyGrid"></div><div class="pagination-controls" id="fantasyPagination"></div></div>
-        <div class="genre-section" data-genre-id="10752"><div class="section-header"><h2 class="section-title"><i class="fas fa-fist-raised"></i> War</h2></div><div class="movies-grid" id="warGrid"></div><div class="pagination-controls" id="warPagination"></div></div>
-        <div class="genre-section" data-genre-id="37"><div class="section-header"><h2 class="section-title"><i class="fas fa-hat-cowboy"></i> Western</h2></div><div class="movies-grid" id="westernGrid"></div><div class="pagination-controls" id="westernPagination"></div></div>
-        <div class="genre-section" data-genre-id="10402"><div class="section-header"><h2 class="section-title"><i class="fas fa-music"></i> Music</h2></div><div class="movies-grid" id="musicGrid"></div><div class="pagination-controls" id="musicPagination"></div></div>
-        <div class="genre-section" data-genre-id="36"><div class="section-header"><h2 class="section-title"><i class="fas fa-landmark"></i> History</h2></div><div class="movies-grid" id="historyGrid"></div><div class="pagination-controls" id="historyPagination"></div></div>
-
+        <!-- Zhanret origjinale (14 zhanre) -->
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-bolt"></i> Action</h2></div><div class="movies-grid" id="actionGrid"></div><div class="pagination-controls" id="actionPagination"></div></div>
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-laugh"></i> Comedy</h2></div><div class="movies-grid" id="comedyGrid"></div><div class="pagination-controls" id="comedyPagination"></div></div>
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-theater-masks"></i> Drama</h2></div><div class="movies-grid" id="dramaGrid"></div><div class="pagination-controls" id="dramaPagination"></div></div>
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-skull"></i> Horror</h2></div><div class="movies-grid" id="horrorGrid"></div><div class="pagination-controls" id="horrorPagination"></div></div>
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-heart"></i> Romance</h2></div><div class="movies-grid" id="romanceGrid"></div><div class="pagination-controls" id="romancePagination"></div></div>
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-rocket"></i> Sci-Fi</h2></div><div class="movies-grid" id="scifiGrid"></div><div class="pagination-controls" id="scifiPagination"></div></div>
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-globe"></i> Documentary</h2></div><div class="movies-grid" id="docGrid"></div><div class="pagination-controls" id="docPagination"></div></div>
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-gavel"></i> Crime</h2></div><div class="movies-grid" id="crimeGrid"></div><div class="pagination-controls" id="crimePagination"></div></div>
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-map-marked-alt"></i> Adventure</h2></div><div class="movies-grid" id="adventureGrid"></div><div class="pagination-controls" id="adventurePagination"></div></div>
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-dragon"></i> Fantasy</h2></div><div class="movies-grid" id="fantasyGrid"></div><div class="pagination-controls" id="fantasyPagination"></div></div>
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-fist-raised"></i> War</h2></div><div class="movies-grid" id="warGrid"></div><div class="pagination-controls" id="warPagination"></div></div>
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-hat-cowboy"></i> Western</h2></div><div class="movies-grid" id="westernGrid"></div><div class="pagination-controls" id="westernPagination"></div></div>
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-music"></i> Music</h2></div><div class="movies-grid" id="musicGrid"></div><div class="pagination-controls" id="musicPagination"></div></div>
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-landmark"></i> History</h2></div><div class="movies-grid" id="historyGrid"></div><div class="pagination-controls" id="historyPagination"></div></div>
+        
         <!-- Seksionet speciale (në fund) -->
-        <div class="special-section" data-special="top_movies"><div class="section-header"><h2 class="section-title"><i class="fas fa-trophy"></i> 100 BEST MOVIES</h2></div><div class="movies-grid" id="topMoviesGrid"></div><div class="pagination-controls" id="topMoviesPagination"></div></div>
-        <div class="special-section" data-special="top_tv"><div class="section-header"><h2 class="section-title"><i class="fas fa-trophy"></i> 100 GREATEST TV SHOWS</h2></div><div class="tv-grid" id="topTvGrid"></div><div class="pagination-controls" id="topTvPagination"></div></div>
-        <div class="special-section" data-year="2020"><div class="section-header"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> BEST OF 2020</h2></div><div class="movies-grid" id="year2020Grid"></div><div class="pagination-controls" id="year2020Pagination"></div></div>
-        <div class="special-section" data-year="2010"><div class="section-header"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> BEST OF 2010</h2></div><div class="movies-grid" id="year2010Grid"></div><div class="pagination-controls" id="year2010Pagination"></div></div>
-        <div class="special-section" data-year="2000"><div class="section-header"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> BEST OF 2000</h2></div><div class="movies-grid" id="year2000Grid"></div><div class="pagination-controls" id="year2000Pagination"></div></div>
-        <div class="special-section" data-year="1990"><div class="section-header"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> BEST OF 1990</h2></div><div class="movies-grid" id="year1990Grid"></div><div class="pagination-controls" id="year1990Pagination"></div></div>
-        <div class="special-section" data-year="1980"><div class="section-header"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> BEST OF 1980</h2></div><div class="movies-grid" id="year1980Grid"></div><div class="pagination-controls" id="year1980Pagination"></div></div>
+        <div class="special-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-trophy"></i> 100 BEST MOVIES</h2></div><div class="movies-grid" id="topMoviesGrid"></div><div class="pagination-controls" id="topMoviesPagination"></div></div>
+        <div class="special-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-trophy"></i> 100 GREATEST TV SHOWS</h2></div><div class="tv-grid" id="topTvGrid"></div><div class="pagination-controls" id="topTvPagination"></div></div>
+        <div class="special-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> BEST OF 2020</h2></div><div class="movies-grid" id="year2020Grid"></div><div class="pagination-controls" id="year2020Pagination"></div></div>
+        <div class="special-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> BEST OF 2010</h2></div><div class="movies-grid" id="year2010Grid"></div><div class="pagination-controls" id="year2010Pagination"></div></div>
+        <div class="special-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> BEST OF 2000</h2></div><div class="movies-grid" id="year2000Grid"></div><div class="pagination-controls" id="year2000Pagination"></div></div>
+        <div class="special-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> BEST OF 1990</h2></div><div class="movies-grid" id="year1990Grid"></div><div class="pagination-controls" id="year1990Pagination"></div></div>
+        <div class="special-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> BEST OF 1980</h2></div><div class="movies-grid" id="year1980Grid"></div><div class="pagination-controls" id="year1980Pagination"></div></div>
+        
+        <div class="genre-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-crown"></i> Featured TV Series</h2></div><div class="tv-grid" id="tvSeriesGrid"></div><div class="pagination-controls" id="tvPagination"></div></div>
     </div>
 
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-logo">AlbFilms24</div>
-            <div class="social-links">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-            </div>
+            <div class="social-links"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-twitter"></i></a></div>
             <div class="disclaimer">Disclaimer: This site does not host any videos. All content is embedded from third-party services.</div>
         </div>
     </footer>
 </div>
 
-<div id="authModal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><div class="auth-form"><input type="email" id="demoEmail" placeholder="Email"><input type="password" id="demoPass" placeholder="Password"><button class="btn-primary" id="demoLoginBtn">Sign In (Demo)</button><button id="googleSignInBtn" class="btn-primary" style="background:#4285F4;">Google</button></div></div></div>
+<div id="authModal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><div class="auth-form"><input type="email" id="demoEmail" placeholder="Email"><input type="password" id="demoPass" placeholder="Password"><button class="btn-primary" id="demoLoginBtn">Sign In (Demo)</button></div></div></div>
 <div id="toast" class="toast"></div>
 <button id="scrollToTopBtn" class="scroll-top-btn"><i class="fas fa-arrow-up"></i></button>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script type="module" src="firebase-config.js"></script>
-<script type="module" src="main.js"></script>
+<script src="main.js"></script>
 </body>
 </html>
