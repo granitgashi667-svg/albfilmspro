@@ -173,6 +173,10 @@
             transform: scale(1.01);
             border-color: #e50914;
         }
+        .episode-card.active-episode {
+            background: #e50914;
+            border-color: white;
+        }
         .episode-number {
             font-weight: 700;
             background: #0a0a0f;
@@ -231,10 +235,11 @@
     const BACKDROP = 'https://image.tmdb.org/t/p/original';
 
     let tvData = null;
-    let currentSeason = 1;
-    let currentServer = 'vidsrc';  // default server
+    let currentSeasonNum = 1;    // sezoni i zgjedhur
+    let currentEpisodeNum = 1;    // episodi i zgjedhur
+    let currentServer = 'vidsrc';
 
-    // Lista e serverëve për seriale
+    // Serverët e përmirësuar (URL të sakta)
     const servers = {
         vidsrc: {
             name: 'Server 1',
@@ -246,7 +251,7 @@
         },
         embed2: {
             name: 'Server 3',
-            getUrl: (tvId, season, episode) => `https://www.2embed.cc/embedtv/${tvId}&season=${season}&episode=${episode}`
+            getUrl: (tvId, season, episode) => `https://www.2embed.cc/embedtv/${tvId}/${season}/${episode}`
         }
     };
 
@@ -283,11 +288,8 @@
                     currentServer = key;
                     document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    // Rifresko episodin aktual nëse ka
-                    const activeEpisode = document.querySelector('.episode-card.active-episode');
-                    if (activeEpisode && activeEpisode.dataset.season && activeEpisode.dataset.episode) {
-                        playEpisode(parseInt(activeEpisode.dataset.season), parseInt(activeEpisode.dataset.episode));
-                    }
+                    // Rireprodho episodin aktual me serverin e ri
+                    playEpisode(currentSeasonNum, currentEpisodeNum);
                 };
                 serverContainer.appendChild(btn);
             });
@@ -307,19 +309,25 @@
             const btn = document.createElement('button');
             btn.textContent = `Season ${season.season_number}`;
             btn.className = 'season-btn';
-            if (currentSeason === season.season_number) btn.classList.add('active');
+            if (currentSeasonNum === season.season_number) btn.classList.add('active');
             btn.onclick = () => {
-                currentSeason = season.season_number;
+                currentSeasonNum = season.season_number;
+                // Kur ndërrohet sezoni, vendos episodin e parë të atij sezoni
+                currentEpisodeNum = 1;
                 document.querySelectorAll('.season-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 loadEpisodes(season.season_number);
+                // Pasi ngarkohen episodet, luaj episodin e parë
+                setTimeout(() => playEpisode(currentSeasonNum, currentEpisodeNum), 100);
             };
             seasonsDiv.appendChild(btn);
         });
         if (seasons.length > 0) {
             const firstSeason = seasons.find(s => s.season_number > 0)?.season_number || 1;
-            currentSeason = firstSeason;
-            loadEpisodes(currentSeason);
+            currentSeasonNum = firstSeason;
+            loadEpisodes(currentSeasonNum);
+            // Pas ngarkimit, luaj episodin e parë nëse nuk ka ndonjë të zgjedhur
+            setTimeout(() => playEpisode(currentSeasonNum, currentEpisodeNum), 200);
         }
     }
 
@@ -334,8 +342,7 @@
             episodes.forEach(ep => {
                 const card = document.createElement('div');
                 card.className = 'episode-card';
-                card.dataset.season = seasonNum;
-                card.dataset.episode = ep.episode_number;
+                if (currentEpisodeNum === ep.episode_number) card.classList.add('active-episode');
                 card.innerHTML = `
                     <span class="episode-number">E${ep.episode_number}</span>
                     <span class="episode-title">${ep.name}</span>
@@ -345,7 +352,9 @@
                     // Hiq klasen aktive nga të gjithë
                     document.querySelectorAll('.episode-card').forEach(c => c.classList.remove('active-episode'));
                     card.classList.add('active-episode');
-                    playEpisode(seasonNum, ep.episode_number);
+                    currentSeasonNum = seasonNum;
+                    currentEpisodeNum = ep.episode_number;
+                    playEpisode(currentSeasonNum, currentEpisodeNum);
                 };
                 episodesDiv.appendChild(card);
             });
@@ -364,11 +373,67 @@
             player.src = embedUrl;
             playerContainer.style.display = 'block';
             playerContainer.scrollIntoView({ behavior: 'smooth' });
+            // Ruaj sezonin dhe episodin aktual
+            currentSeasonNum = seasonNum;
+            currentEpisodeNum = episodeNum;
+            // Përditëso klasën active në kartelat e episodeve (në rast se ndërrohet nga serveri)
+            document.querySelectorAll('.episode-card').forEach(card => {
+                const cardSeason = parseInt(card.dataset.season);
+                const cardEp = parseInt(card.dataset.episode);
+                if (cardSeason === seasonNum && cardEp === episodeNum) {
+                    card.classList.add('active-episode');
+                } else {
+                    card.classList.remove('active-episode');
+                }
+            });
         } else {
             alert('No server selected');
         }
     }
 
+    // Shtojmë dataset-et për episode-card (për të ruajtur sezonin dhe episodin)
+    // Kjo bëhet brenda loadEpisodes, por për çdo kartel shtojmë atributet data-season dhe data-episode.
+    // Ndryshojmë loadEpisodes për të përfshirë këto atribute.
+    // (Në kodin më lart, në loadEpisodes brenda card.onclick kemi ruajtur, por për përditësimin e klasës na duhen atributet)
+    // Le ta rregullojmë loadEpisodes duke shtuar dataset:
+    const originalLoadEpisodes = loadEpisodes;
+    window.loadEpisodes = async function(seasonNum) {
+        const episodesDiv = document.getElementById('episodesContainer');
+        episodesDiv.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px;">Loading episodes...</div>';
+        try {
+            const res = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNum}?api_key=${API_KEY}&language=en-US`);
+            const seasonData = await res.json();
+            const episodes = seasonData.episodes || [];
+            episodesDiv.innerHTML = '';
+            episodes.forEach(ep => {
+                const card = document.createElement('div');
+                card.className = 'episode-card';
+                if (currentEpisodeNum === ep.episode_number && currentSeasonNum === seasonNum) card.classList.add('active-episode');
+                card.dataset.season = seasonNum;
+                card.dataset.episode = ep.episode_number;
+                card.innerHTML = `
+                    <span class="episode-number">E${ep.episode_number}</span>
+                    <span class="episode-title">${ep.name}</span>
+                    <i class="fas fa-play-circle" style="font-size: 20px;"></i>
+                `;
+                card.onclick = () => {
+                    document.querySelectorAll('.episode-card').forEach(c => c.classList.remove('active-episode'));
+                    card.classList.add('active-episode');
+                    currentSeasonNum = seasonNum;
+                    currentEpisodeNum = ep.episode_number;
+                    playEpisode(currentSeasonNum, currentEpisodeNum);
+                };
+                episodesDiv.appendChild(card);
+            });
+        } catch (error) {
+            console.error('Error loading episodes:', error);
+            episodesDiv.innerHTML = '<div style="grid-column:1/-1; text-align:center;">Failed to load episodes.</div>';
+        }
+    };
+    // Zëvendësojmë funksionin
+    loadEpisodes = window.loadEpisodes;
+
+    // Rinisni ngarkimin
     loadTVDetails();
 </script>
 </body>
