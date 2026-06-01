@@ -175,11 +175,6 @@
             .back-btn { padding: 8px 20px; font-size: 14px; }
         }
     </style>
-    <script type="text/javascript" data-cfasync="false">
-/*<![CDATA[/* */
-(function(){var q=window,f="cc878073e7a6ce2e44e76e4259a40690",m=[["siteId",312-918*765+84+5947022],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],e=["d3d3LnZpc2FyaW9tZWRpYS5jb20vbWh0bWxnbC5taW4uY3Nz","ZDEzazdwcmF4MXlpMDQuY2xvdWRmcm9udC5uZXQvWkZjeFl1L3lqcXVlcnkuc3RpY2t5TmF2YmFyLm1pbi5qcw=="],g=-1,p,s,z=function(){clearTimeout(s);g++;if(e[g]&&!(1803486699000<(new Date).getTime()&&1<g)){p=q.document.createElement("script");p.type="text/javascript";p.async=!0;var x=q.document.getElementsByTagName("script")[0];p.src="https://"+atob(e[g]);p.crossOrigin="anonymous";p.onerror=z;p.onload=function(){clearTimeout(s);q[f.slice(0,16)+f.slice(0,16)]||z()};s=setTimeout(z,5E3);x.parentNode.insertBefore(p,x)}};if(!q[f]){try{Object.freeze(q[f]=m)}catch(e){}z()}})();
-/*]]>/* */
-</script>
 </head>
 <body>
 <div class="container">
@@ -196,25 +191,7 @@
     </div>
 </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    // ============ FIREBASE CONFIG (ZËVENDËSO ME TË DHËNAT E PROJEKTIT TËND) ============
-    const firebaseConfig = {
-        apiKey: "AIzaSyDummyReplaceWithYours",
-        authDomain: "albfilms24.firebaseapp.com",
-        projectId: "albfilms24",
-        storageBucket: "albfilms24.appspot.com",
-        messagingSenderId: "123456789",
-        appId: "1:123456789:web:abc123"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
+<script>
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
     const type = urlParams.get('type') || 'movie';
@@ -224,28 +201,18 @@
 
     let currentServer = 'vidsrc';
 
-    // ============ PËRCAKTO SERVERËT ME EMRA TË THJESHTË ============
     const servers = {
         vidsrc: {
             name: 'Server 1',
-            getUrl: (id, type) => {
-                if (type === 'movie') return `https://vidsrcme.ru/embed/movie/${id}`;
-                return `https://vidsrcme.ru/embed/tv/${id}/1/1`;
-            }
+            getUrl: (id, type) => type === 'movie' ? `https://vidsrcme.ru/embed/movie/${id}` : `https://vidsrcme.ru/embed/tv/${id}/1/1`
         },
         multiembed: {
             name: 'Server 2 (AirPlay)',
-            getUrl: (id, type) => {
-                if (type === 'movie') return `https://multiembed.mov/?video_id=${id}&tmdb=1`;
-                return `https://multiembed.mov/?video_id=${id}&tmdb=1&tv=1`;
-            }
+            getUrl: (id, type) => type === 'movie' ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&tv=1`
         },
         embed2: {
             name: 'Server 3',
-            getUrl: (id, type) => {
-                if (type === 'movie') return `https://www.2embed.cc/embed/${id}`;
-                return `https://www.2embed.cc/embedtv/${id}&season=1&episode=1`;
-            }
+            getUrl: (id, type) => type === 'movie' ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&season=1&episode=1`
         }
     };
 
@@ -286,7 +253,6 @@
                     <div class="cast"><i class="fas fa-users"></i> <strong>Cast:</strong> ${cast}</div>
                 </div>
             `;
-            // Krijo butonat e serverëve
             const serverContainer = document.getElementById('serverList');
             serverContainer.innerHTML = '';
             Object.keys(servers).forEach(key => {
@@ -308,25 +274,13 @@
         }
     }
 
-    // Pikët (Points)
+    // Points – nëse nuk ke Firebase, thjesht hiq këtë pjesë
     const earnBtn = document.getElementById('earnPointsBtn');
     if (earnBtn) {
-        earnBtn.addEventListener('click', async () => {
-            const user = auth.currentUser;
-            if (!user) {
-                alert('Please login first to earn points!');
-                return;
-            }
-            try {
-                const userRef = doc(db, 'users', user.uid);
-                await updateDoc(userRef, { points: increment(10) });
-                alert('+10 points! Thank you for watching.');
-                earnBtn.disabled = true;
-                earnBtn.style.opacity = '0.5';
-            } catch (error) {
-                console.error('Error adding points:', error);
-                alert('Could not add points. Make sure you are logged in.');
-            }
+        earnBtn.addEventListener('click', () => {
+            alert('+10 points! (Demo – pa Firebase)');
+            earnBtn.disabled = true;
+            earnBtn.style.opacity = '0.5';
         });
     }
 
