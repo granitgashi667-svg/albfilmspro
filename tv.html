@@ -107,6 +107,27 @@
             color: #ddd;
             font-size: 16px;
         }
+        .server-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+        .server-btn {
+            background: #1e2026;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: #ccc;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .server-btn.active, .server-btn:hover {
+            background: #e50914;
+            color: white;
+        }
         .season-selector {
             display: flex;
             flex-wrap: wrap;
@@ -182,13 +203,9 @@
             .title { font-size: 28px; }
             .series-hero { padding: 20px; gap: 20px; }
             .episodes-grid { grid-template-columns: 1fr; }
+            .server-btn { padding: 6px 14px; font-size: 12px; }
         }
     </style>
-    <script type="text/javascript" data-cfasync="false">
-/*<![CDATA[/* */
-(function(){var q=window,f="cc878073e7a6ce2e44e76e4259a40690",m=[["siteId",312-918*765+84+5947022],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],e=["d3d3LnZpc2FyaW9tZWRpYS5jb20vbWh0bWxnbC5taW4uY3Nz","ZDEzazdwcmF4MXlpMDQuY2xvdWRmcm9udC5uZXQvWkZjeFl1L3lqcXVlcnkuc3RpY2t5TmF2YmFyLm1pbi5qcw=="],g=-1,p,s,z=function(){clearTimeout(s);g++;if(e[g]&&!(1803486699000<(new Date).getTime()&&1<g)){p=q.document.createElement("script");p.type="text/javascript";p.async=!0;var x=q.document.getElementsByTagName("script")[0];p.src="https://"+atob(e[g]);p.crossOrigin="anonymous";p.onerror=z;p.onload=function(){clearTimeout(s);q[f.slice(0,16)+f.slice(0,16)]||z()};s=setTimeout(z,5E3);x.parentNode.insertBefore(p,x)}};if(!q[f]){try{Object.freeze(q[f]=m)}catch(e){}z()}})();
-/*]]>/* */
-</script>
 </head>
 <body>
 <div class="container">
@@ -196,6 +213,9 @@
         <button class="back-btn" onclick="history.back()"><i class="fas fa-arrow-left"></i> Back to Home</button>
     </div>
     <div id="info" class="series-hero"></div>
+    
+    <div class="server-selector" id="serverList"></div>
+    
     <div id="seasonsContainer" class="season-selector"></div>
     <div id="episodesContainer" class="episodes-grid"></div>
     <div id="playerContainer" class="player-wrapper" style="display: none;">
@@ -212,6 +232,23 @@
 
     let tvData = null;
     let currentSeason = 1;
+    let currentServer = 'vidsrc';  // default server
+
+    // Lista e serverëve për seriale
+    const servers = {
+        vidsrc: {
+            name: 'Server 1',
+            getUrl: (tvId, season, episode) => `https://vidsrcme.ru/embed/tv/${tvId}/${season}/${episode}`
+        },
+        multiembed: {
+            name: 'Server 2 (AirPlay)',
+            getUrl: (tvId, season, episode) => `https://multiembed.mov/?video_id=${tvId}&tmdb=1&tv=1&season=${season}&episode=${episode}`
+        },
+        embed2: {
+            name: 'Server 3',
+            getUrl: (tvId, season, episode) => `https://www.2embed.cc/embedtv/${tvId}&season=${season}&episode=${episode}`
+        }
+    };
 
     async function loadTVDetails() {
         if (!tvId) {
@@ -235,6 +272,25 @@
                     <div class="overview">${tvData.overview || 'No description available.'}</div>
                 </div>
             `;
+            // Krijimi i butonave të serverëve
+            const serverContainer = document.getElementById('serverList');
+            serverContainer.innerHTML = '';
+            Object.keys(servers).forEach(key => {
+                const btn = document.createElement('button');
+                btn.textContent = servers[key].name;
+                btn.className = `server-btn ${key === currentServer ? 'active' : ''}`;
+                btn.onclick = () => {
+                    currentServer = key;
+                    document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    // Rifresko episodin aktual nëse ka
+                    const activeEpisode = document.querySelector('.episode-card.active-episode');
+                    if (activeEpisode && activeEpisode.dataset.season && activeEpisode.dataset.episode) {
+                        playEpisode(parseInt(activeEpisode.dataset.season), parseInt(activeEpisode.dataset.episode));
+                    }
+                };
+                serverContainer.appendChild(btn);
+            });
             loadSeasons();
         } catch (error) {
             console.error('Error loading TV details:', error);
@@ -247,7 +303,7 @@
         seasonsDiv.innerHTML = '';
         const seasons = tvData.seasons || [];
         seasons.forEach(season => {
-            if (season.season_number === 0) return; // skip specials
+            if (season.season_number === 0) return;
             const btn = document.createElement('button');
             btn.textContent = `Season ${season.season_number}`;
             btn.className = 'season-btn';
@@ -278,12 +334,19 @@
             episodes.forEach(ep => {
                 const card = document.createElement('div');
                 card.className = 'episode-card';
+                card.dataset.season = seasonNum;
+                card.dataset.episode = ep.episode_number;
                 card.innerHTML = `
                     <span class="episode-number">E${ep.episode_number}</span>
                     <span class="episode-title">${ep.name}</span>
                     <i class="fas fa-play-circle" style="font-size: 20px;"></i>
                 `;
-                card.onclick = () => playEpisode(seasonNum, ep.episode_number);
+                card.onclick = () => {
+                    // Hiq klasen aktive nga të gjithë
+                    document.querySelectorAll('.episode-card').forEach(c => c.classList.remove('active-episode'));
+                    card.classList.add('active-episode');
+                    playEpisode(seasonNum, ep.episode_number);
+                };
                 episodesDiv.appendChild(card);
             });
         } catch (error) {
@@ -295,10 +358,15 @@
     function playEpisode(seasonNum, episodeNum) {
         const playerContainer = document.getElementById('playerContainer');
         const player = document.getElementById('player');
-        const embedUrl = `https://vidsrcme.ru/embed/tv/${tvId}/${seasonNum}/${episodeNum}`;
-        player.src = embedUrl;
-        playerContainer.style.display = 'block';
-        playerContainer.scrollIntoView({ behavior: 'smooth' });
+        const server = servers[currentServer];
+        if (server) {
+            const embedUrl = server.getUrl(tvId, seasonNum, episodeNum);
+            player.src = embedUrl;
+            playerContainer.style.display = 'block';
+            playerContainer.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            alert('No server selected');
+        }
     }
 
     loadTVDetails();
