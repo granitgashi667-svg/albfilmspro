@@ -107,27 +107,6 @@
             color: #ddd;
             font-size: 16px;
         }
-        .server-selector {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin: 20px 0;
-            justify-content: center;
-        }
-        .server-btn {
-            background: #1e2026;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 40px;
-            color: #ccc;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.2s;
-        }
-        .server-btn.active, .server-btn:hover {
-            background: #e50914;
-            color: white;
-        }
         .season-selector {
             display: flex;
             flex-wrap: wrap;
@@ -202,6 +181,29 @@
             border: none;
             display: block;
         }
+        /* Serverët poshtë playerit */
+        .server-selector {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0 30px;
+            flex-wrap: wrap;
+        }
+        .server-btn {
+            background: #1e2026;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: #ccc;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            font-size: 14px;
+        }
+        .server-btn.active, .server-btn:hover {
+            background: #e50914;
+            color: white;
+        }
         @media (max-width: 700px) {
             .poster img { width: 160px; }
             .title { font-size: 28px; }
@@ -218,13 +220,15 @@
     </div>
     <div id="info" class="series-hero"></div>
     
-    <div class="server-selector" id="serverList"></div>
-    
     <div id="seasonsContainer" class="season-selector"></div>
     <div id="episodesContainer" class="episodes-grid"></div>
+    
     <div id="playerContainer" class="player-wrapper" style="display: none;">
         <iframe id="player" allowfullscreen allow="autoplay; fullscreen"></iframe>
     </div>
+    
+    <!-- Serverët poshtë playerit -->
+    <div class="server-selector" id="serverList"></div>
 </div>
 
 <script>
@@ -239,22 +243,18 @@
     let currentEpisodeNum = 1;
     let currentServer = 'vidsrc';
 
-    // ============ SERVERËT (4 serverë, përfshirë vkng) ============
+    // Tre serverët e kërkuar: vidsrc, embed2, vkng
     const servers = {
         vidsrc: {
             name: 'Server 1',
             getUrl: (tvId, season, episode) => `https://vidsrcme.ru/embed/tv/${tvId}/${season}/${episode}`
         },
-        multiembed: {
-            name: 'Server 2 (AirPlay)',
-            getUrl: (tvId, season, episode) => `https://multiembed.mov/?video_id=${tvId}&tmdb=1&tv=1&season=${season}&episode=${episode}`
-        },
         embed2: {
-            name: 'Server 3 (Original)',
+            name: 'Server 2',
             getUrl: (tvId, season, episode) => `https://www.2embed.cc/embedtv/${tvId}&season=${season}&episode=${episode}`
         },
         vkng: {
-            name: 'Server 4 (VKNG)',
+            name: 'Server 3 (VKNG)',
             getUrl: (tvId, season, episode) => `https://vkng.cc/embed/tv/${tvId}/${season}/${episode}`
         }
     };
@@ -281,7 +281,7 @@
                     <div class="overview">${tvData.overview || 'No description available.'}</div>
                 </div>
             `;
-            // Krijimi i butonave të serverëve
+            // Krijimi i butonave të serverëve (poshtë)
             const serverContainer = document.getElementById('serverList');
             serverContainer.innerHTML = '';
             Object.keys(servers).forEach(key => {
@@ -292,7 +292,7 @@
                     currentServer = key;
                     document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    // Rireprodho episodin aktual me serverin e ri
+                    // Rireprodho EPISODIN AKTUAL (jo episodin 1)
                     playEpisode(currentSeasonNum, currentEpisodeNum);
                 };
                 serverContainer.appendChild(btn);
@@ -377,7 +377,7 @@
             player.src = embedUrl;
             playerContainer.style.display = 'block';
             playerContainer.scrollIntoView({ behavior: 'smooth' });
-            // Përditëso variablat globale
+            // Përditëso variablat globale (siguri)
             currentSeasonNum = seasonNum;
             currentEpisodeNum = episodeNum;
             // Përditëso klasën aktive në kartelat e episodeve
